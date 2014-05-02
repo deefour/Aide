@@ -195,7 +195,9 @@ abstract class CsvRepository extends AbstractRepository implements RepositoryInt
         continue;
       }
 
-      if (empty(array_filter($row))) {
+      $row = array_filter($row);
+
+      if (empty($row)) {
         continue;
       }
 

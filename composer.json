@@ -22,8 +22,6 @@
         "illuminate/database": "4.1.*",
         "illuminate/validation": "4.1.*",
         "silex/silex": "~1.2",
-        "twig/twig": ">=1.8,<2.0-dev",
-        "symfony/twig-bridge": "~2.3",
         "mockery/mockery": "0.9.*",
         "phpunit/phpunit": "4.0.*"
     },
@@ -40,5 +38,9 @@
             "Deefour\\Aide\\": "tests/"
         }
     },
-    "minimum-stability": "dev"
+    "minimum-stability": "dev",
+    "suggest": {
+        "illuminate/database": "Eloquent storage driver support",
+        "illuminate/validation": "Laravel-style validation support"
+    }
 }

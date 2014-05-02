@@ -20,7 +20,7 @@ class AbstractEntityTest extends TestCase {
     $user = new TestDummy($this->data);
 
     $this->assertEquals('Jason', $user->first_name);
-    $this->assertNull($user->rejected);
+    $this->assertFalse(property_exists($user, 'rejected'));
 
     $user = new TestDummy;
 
@@ -33,7 +33,7 @@ class AbstractEntityTest extends TestCase {
     $user->setAttributes($this->data);
 
     $this->assertEquals('Jason', $user->first_name);
-    $this->assertNull($user->rejected);
+    $this->assertFalse(property_exists($user, 'rejected'));
 
     $user->setAttributes(array('first_name' => 'Jase'));
 
@@ -53,7 +53,7 @@ class AbstractEntityTest extends TestCase {
 
     $user->fromArray(array( 'first_name' => 'Jase', 'rejected' => 22 ));
 
-    $this->assertNull($user->rejected);
+    $this->assertFalse(property_exists($user, 'rejected'));
     $this->assertEquals('Jase', $user->first_name);
   }
 

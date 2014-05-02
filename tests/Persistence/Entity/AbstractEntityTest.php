@@ -53,7 +53,7 @@ class AbstractEntityTest extends TestCase {
 
     $user->fromArray(array( 'first_name' => 'Jase', 'rejected' => 22 ));
 
-    $this->assertNull($this->rejected);
+    $this->assertNull($user->rejected);
     $this->assertEquals('Jase', $user->first_name);
   }
 

@@ -3,7 +3,7 @@
 class CsvFactory extends AbstractFactory {
 
   /**
-   * Array of default options for the repository
+   * {@inheritdoc}
    *
    * NOTE: `path` IS OMITTED HERE BECAUSE THE DEFAULT IS INTENDED TO BE THE SYSTEM
    * TMP DIRECTORY. PHP SYNTAX DISALLOWS FUNCTION CALLS IN SUCH PROPERTY DECLARATIONS
@@ -11,9 +11,14 @@ class CsvFactory extends AbstractFactory {
    * @staticvar
    * @var array
    */
-  public static $options = array(
+  protected static $options = array(
     'extension' => 'csv',
   );
+
+  /**
+   * {@inheritdoc}
+   */
+  protected static $driver = 'Csv';
 
 
 
@@ -28,11 +33,7 @@ class CsvFactory extends AbstractFactory {
 
     $options = array_merge(static::$options, $options);
 
-    list($fullClassName, $namespace, $className) = static::parseClassName($entity);
-
-    $className = sprintf('%s\\Csv\\%sRepository', $namespace, $className);
-
-    return new $className($options);
+    return parent::create($entity, $options);
   }
 
 }

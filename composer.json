@@ -18,14 +18,12 @@
         "issues": "https://github.com/deefour/Aide/issues",
         "email": "jason@deefour.me"
     },
-    "require": {
+    "require-dev": {
         "illuminate/database": "4.1.*",
         "illuminate/validation": "4.1.*",
         "silex/silex": "~1.2",
         "twig/twig": ">=1.8,<2.0-dev",
-        "symfony/twig-bridge": "~2.3"
-    },
-    "require-dev": {
+        "symfony/twig-bridge": "~2.3",
         "mockery/mockery": "0.9.*",
         "phpunit/phpunit": "4.0.*"
     },

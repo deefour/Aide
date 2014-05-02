@@ -6,12 +6,16 @@ use Csv\TestArticleRepository;
 
 class CsvRepositoryTest extends TestCase {
 
+  protected $repository;
+
+
+
   public function setUp() {
-    $this->repository = new TestArticleRepository([ 'path' => sys_get_temp_dir() ]);
+    $this->repository = new TestArticleRepository(new TestArticle, [ 'path' => sys_get_temp_dir() ]);
   }
 
   public function tearDown() {
-    if (is_file($this->repository->getFilename())) {
+    if ($this->repository and is_file($this->repository->getFilename())) {
       unlink($this->repository->getFilename());
     }
   }
@@ -21,7 +25,7 @@ class CsvRepositoryTest extends TestCase {
    * @expectedExceptionMessage not writable
    */
   public function testBadConstruction() {
-    $repository = new TestArticleRepository([ 'path' => '/some/random/path' ]);
+    $repository = new TestArticleRepository(new TestArticle, [ 'path' => '/some/random/path' ]);
 
     $this->assertEquals('/some/random/path/testarticle.csv', $repository->getFilename());
   }
@@ -62,7 +66,7 @@ class CsvRepositoryTest extends TestCase {
     $this->assertEquals($entity1->slug, $model1_updated->slug);
     $this->assertEquals($model1_updated->slug, $model1->slug);
 
-    $repository = new TestArticleRepository([ 'path' => sys_get_temp_dir() ]);
+    $repository = new TestArticleRepository(new TestArticle, [ 'path' => sys_get_temp_dir() ]);
     $all        = $repository->all();
 
     $this->assertEquals('an-alternative-slug', reset($all)->slug);
@@ -73,7 +77,7 @@ class CsvRepositoryTest extends TestCase {
 
     $this->assertCount(2, $this->repository->all());
 
-    $repository = new TestArticleRepository([ 'path' => sys_get_temp_dir() ]);
+    $repository = new TestArticleRepository(new TestArticle, [ 'path' => sys_get_temp_dir() ]);
 
     $repository->delete($entity1);
 

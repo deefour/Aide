@@ -1,5 +1,7 @@
 {
     "name": "deefour/aide",
+    "description": "A set of classes to assist Laravel and Silex development.",
+    "version": "0.1.0",
     "license": "MIT",
     "keywords": ["deefour", "eloquent", "silex", "validation", "persistence", "laravel"],
     "authors": [
@@ -12,12 +14,18 @@
     "require": {
         "php": ">=5.4.0"
     },
-    "require-dev": {
+    "support": {
+        "issues": "https://github.com/deefour/Aide/issues",
+        "email": "jason@deefour.me"
+    },
+    "require": {
         "illuminate/database": "4.1.*",
         "illuminate/validation": "4.1.*",
         "silex/silex": "~1.2",
         "twig/twig": ">=1.8,<2.0-dev",
         "symfony/twig-bridge": "~2.3",
+    },
+    "require-dev": {
         "mockery/mockery": "0.9.*",
         "phpunit/phpunit": "4.0.*"
     },
@@ -32,11 +40,6 @@
         ],
         "psr-4": {
             "Deefour\\Aide\\": "tests/"
-        }
-    },
-    "extra": {
-        "branch-alias": {
-            "dev-master": "4.2-dev"
         }
     },
     "minimum-stability": "dev"

@@ -1,6 +1,7 @@
 # Aide
 
 [![Build Status](https://travis-ci.org/deefour/Aide.svg)](https://travis-ci.org/deefour/Aide)
+[![Packagist Version](http://img.shields.io/packagist/v/deefour/Aide.svg)](https://packagist.org/packages/deefour/Aide)
 [![Latest Version](http://img.shields.io/github/tag/deefour/Aide.svg)](https://github.com/deefour/Aide/releases)
 
 A set of classes to assist Laravel and Silex development.

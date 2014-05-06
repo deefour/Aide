@@ -381,7 +381,7 @@ abstract class Controller {
    */
   public function sendFile($file, $filename, $headers = []) {
     if (is_string($file)) { // drop the contents into a temp file to pass to Symfony
-      $fs      = new FileSystem;
+      $fs      = new Filesystem;
       $tmpFile = tempnam(sys_get_temp_dir(), 'test');
 
       $fs->dumpFile($tmpFile, $file);

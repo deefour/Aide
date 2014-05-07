@@ -86,4 +86,19 @@ abstract class Model extends Eloquent implements ModelInterface {
     return $entityClass;
   }
 
+  /**
+   * {@inheritdoc}
+   */
+  public function newInstance($attributes = array(), $exists = false) {
+    static::unguard();
+
+    $model = new static((array) $attributes);
+
+    static::reguard();
+
+    $model->exists = $exists;
+
+    return $model;
+  }
+
 }

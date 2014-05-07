@@ -1,5 +1,10 @@
 <?php namespace Deefour\Aide\Persistence\Repository;
 
+use Deefour\Aide\Persistence\Model\ModelInterface;
+use Deefour\Aide\Persistence\Entity\EntityInterface;
+
+
+
 abstract class AbstractRepository implements RepositoryInterface {
 
   /**
@@ -19,7 +24,7 @@ abstract class AbstractRepository implements RepositoryInterface {
 
 
 
-  public function __construct(\Deefour\Aide\Persistence\Model\ModelInterface $model, array $options = []) {
+  public function __construct(ModelInterface $model, array $options = []) {
     $this->model   = $model;
     $this->options = $options;
   }
@@ -27,7 +32,7 @@ abstract class AbstractRepository implements RepositoryInterface {
   /**
    * {@inheritdoc}
    */
-  public function upsert(\Deefour\Aide\Persistence\Entity\EntityInterface $entity) {
+  public function upsert(EntityInterface $entity) {
     if ( ! $entity->exists) {
       return $this->create($entity);
     }

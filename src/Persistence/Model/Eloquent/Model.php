@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Eloquent\Model as Eloquent;
 use Deefour\Aide\Persistence\Model\ModelInterface;
+use Deefour\Aide\Persistence\Entity\EntityInterface;
 
 abstract class Model extends Eloquent implements ModelInterface {
 

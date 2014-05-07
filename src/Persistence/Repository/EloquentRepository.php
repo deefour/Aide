@@ -1,10 +1,14 @@
 <?php namespace Deefour\Aide\Persistence\Repository;
 
 use Deefour\Aide\Persistence\Model\ModelInterface;
+use Deefour\Aide\Persistence\Entity\EntityInterface;
+use \Deefour\Aide\Persistence\Model\Eloquent\Model;
+
+
 
 abstract class EloquentRepository extends AbstractRepository implements RepositoryInterface {
 
-  public function __construct(\Deefour\Aide\Persistence\Model\Eloquent\Model $model, array $options = []) {
+  public function __construct(Model $model, array $options = []) {
     parent::__construct($model, $options);
   }
 
@@ -13,7 +17,7 @@ abstract class EloquentRepository extends AbstractRepository implements Reposito
   /**
    * {@inheritdoc}
    */
-  public function create(\Deefour\Aide\Persistence\Entity\EntityInterface $entity) {
+  public function create(EntityInterface $entity) {
     $model = $entity;
 
     if ( ! $entity instanceof ModelInterface) {
@@ -32,7 +36,7 @@ abstract class EloquentRepository extends AbstractRepository implements Reposito
   /**
    * {@inheritdoc}
    */
-  public function update(\Deefour\Aide\Persistence\Entity\EntityInterface $entity) {
+  public function update(EntityInterface $entity) {
     $model = $entity;
 
     if ( ! $entity instanceof ModelInterface) {
@@ -51,7 +55,7 @@ abstract class EloquentRepository extends AbstractRepository implements Reposito
   /**
    * {@inheritdoc}
    */
-  public function delete(\Deefour\Aide\Persistence\Entity\EntityInterface $entity) {
+  public function delete(EntityInterface $entity) {
     if (is_null($entity->id)) {
       return true;
     }

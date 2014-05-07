@@ -1,5 +1,11 @@
 <?php namespace Deefour\Aide\Persistence\Repository;
 
+use Deefour\Aide\Persistence\Model\ModelInterface;
+use Deefour\Aide\Persistence\Entity\EntityInterface;
+use Deefour\Aide\Persistence\Model\Csv\Model;
+
+
+
 abstract class CsvRepository extends AbstractRepository implements RepositoryInterface {
 
   /**
@@ -32,7 +38,7 @@ abstract class CsvRepository extends AbstractRepository implements RepositoryInt
    * @param  array                                $options [optional]
    * @throws Exception if the specified filepath for the store is not writable
    */
-  public function __construct(\Deefour\Aide\Persistence\Model\Csv\Model $model, array $options = []) {
+  public function __construct(EntityInterface $entity, ModelInterface $model, array $options = []) {
     $defaultOptions = array(
       'path'      => sys_get_temp_dir(),
       'extension' => 'csv'
@@ -63,7 +69,7 @@ abstract class CsvRepository extends AbstractRepository implements RepositoryInt
   /**
    * {@inheritdoc}
    */
-  public function create(\Deefour\Aide\Persistence\Entity\EntityInterface $entity) {
+  public function create(EntityInterface $entity) {
     $model = $this->model->newInstance($entity->toArray());
 
     $this->records[$model->id] = $model;
@@ -79,7 +85,7 @@ abstract class CsvRepository extends AbstractRepository implements RepositoryInt
    * @throws Exception if the model doesn't yet exist in the store (the in-memory
    * copy is checked)
    */
-  public function update(\Deefour\Aide\Persistence\Entity\EntityInterface $entity) {
+  public function update(EntityInterface $entity) {
     if ( ! ($model = $this->records[$entity->id])) {
       throw new \Exception(sprintf('Model with id `%s` does not exist', $entity->id));
     }
@@ -94,7 +100,7 @@ abstract class CsvRepository extends AbstractRepository implements RepositoryInt
   /**
    * {@inheritdoc}
    */
-  public function delete(\Deefour\Aide\Persistence\Entity\EntityInterface $entity) {
+  public function delete(EntityInterface $entity) {
     if ( ! $entity->id) {
       return;
     }
@@ -170,7 +176,7 @@ abstract class CsvRepository extends AbstractRepository implements RepositoryInt
    * @param  \Deefour\Aide\Persistence\Model\Csv\Model  $model
    * @return void
    */
-  protected function persist(\Deefour\Aide\Persistence\Entity\EntityInterface $entity, \Deefour\Aide\Persistence\Model\Csv\Model $model) {
+  protected function persist(EntityInterface $entity, Model $model) {
     $this->save();
 
     $entity->fromArray($model->toArray());

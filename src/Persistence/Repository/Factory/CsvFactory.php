@@ -1,5 +1,9 @@
 <?php namespace Deefour\Aide\Persistence\Repository\Factory;
 
+use Deefour\Aide\Persistence\Entity\EntityInterface;
+
+
+
 class CsvFactory extends AbstractFactory {
 
   /**
@@ -25,7 +29,7 @@ class CsvFactory extends AbstractFactory {
   /**
    * {@inheritdoc}
    */
-  public static function create(\Deefour\Aide\Persistence\Entity\EntityInterface $entity, array $options = []) {
+  public static function create(EntityInterface $entity, array $options = []) {
     // Workaround to add default path option
     if ( ! array_key_exists('path', $options)) {
       $options['path'] = sys_get_temp_dir();

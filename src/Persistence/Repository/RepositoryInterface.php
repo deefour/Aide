@@ -1,5 +1,9 @@
 <?php namespace Deefour\Aide\Persistence\Repository;
 
+use \Deefour\Aide\Persistence\Entity\EntityInterface;
+
+
+
 interface RepositoryInterface {
 
   /**
@@ -8,7 +12,7 @@ interface RepositoryInterface {
    * @param  Deefour\Aide\Persistence\Entity\EntityInterface  $entity
    * @return Deefour\Aide\Persistence\Model\ModelInterface
    */
-  public function create(\Deefour\Aide\Persistence\Entity\EntityInterface $entity);
+  public function create(EntityInterface $entity);
 
   /**
    * Persists an _existing_ record into the storage backend.
@@ -16,7 +20,7 @@ interface RepositoryInterface {
    * @param  Deefour\Aide\Persistence\Entity\EntityInterface  $entity
    * @return Deefour\Aide\Persistence\Model\ModelInterface
    */
-  public function update(\Deefour\Aide\Persistence\Entity\EntityInterface $entity);
+  public function update(EntityInterface $entity);
 
   /**
    * Convenience method; creates non-existent entities and updates existing ones.
@@ -25,7 +29,7 @@ interface RepositoryInterface {
    * @param  Deefour\Aide\Persistence\Entity\EntityInterface  $entity
    * @return boolean
    */
-  public function upsert(\Deefour\Aide\Persistence\Entity\EntityInterface $entity);
+  public function upsert(EntityInterface $entity);
 
   /**
    * Removes a record from the storage backend if it exists; removes it from
@@ -34,7 +38,7 @@ interface RepositoryInterface {
    * @param  Deefour\Aide\Persistence\Entity\EntityInterface  $entity
    * @return boolean
    */
-  public function delete(\Deefour\Aide\Persistence\Entity\EntityInterface $entity);
+  public function delete(EntityInterface $entity);
 
   /**
    * Attempts to find an existing record in the storage backend, converting it

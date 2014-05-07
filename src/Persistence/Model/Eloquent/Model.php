@@ -42,7 +42,7 @@ abstract class Model extends Eloquent implements ModelInterface {
    * @return \Deefour\Aide\Persistence\Entity\EntityInterface
    */
   public function toEntity() {
-    $fullName   = get_class($this);  // ie. \Eloquent\User
+    $fullName = get_class($this);  // ie. \Eloquent\User
     list($namespace, $baseName) = explode('\\', $fullName);
 
     if ($this instanceof EntityInferface) {

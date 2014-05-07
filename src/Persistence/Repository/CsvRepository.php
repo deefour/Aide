@@ -38,7 +38,7 @@ abstract class CsvRepository extends AbstractRepository implements RepositoryInt
    * @param  array                                $options [optional]
    * @throws Exception if the specified filepath for the store is not writable
    */
-  public function __construct(EntityInterface $entity, ModelInterface $model, array $options = []) {
+  public function __construct(ModelInterface $model, array $options = []) {
     $defaultOptions = array(
       'path'      => sys_get_temp_dir(),
       'extension' => 'csv'

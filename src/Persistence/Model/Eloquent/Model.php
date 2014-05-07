@@ -35,4 +35,55 @@ abstract class Model extends Eloquent implements ModelInterface {
     $this->original   = [];
   }
 
+  /**
+   * Attempt to derive the entity class based on the base name and namespace for
+   * the class instance.
+   *
+   * @return \Deefour\Aide\Persistence\Entity\EntityInterface
+   */
+  public function toEntity() {
+    $fullName   = get_class($this);  // ie. \Eloquent\User
+    list($namespace, $baseName) = explode('\\', $fullName);
+
+    if ($this instanceof EntityInferface) {
+      return $this;
+    }
+
+    $choices = array(
+      "\\{$baseName}",       // \User
+      "\\${baseName}Entity", // \UserEntity
+      "\\${fullName}Entity", // \Eloquent\UserEntity
+      "\\Entity${baseName}", // \Entity\User
+    );
+
+    foreach ($choices as $entityName) {
+      if ( ! class_exists($entityName)) {
+        continue;
+      }
+
+      $entityClass = new $entityName;
+
+      if ($entityClass instanceof EntityInterface) {
+        break;
+      } else {
+        $entityClass = null;
+      }
+    }
+
+    if ( ! $entityClass) {
+      throw new \Exception(
+        sprintf(
+          'Could not derive an entity class for the `%s` model. Looked for the
+           following entity classes: `%s`',
+           get_class($this),
+           implode('`, `', $choices)
+        )
+      );
+    }
+
+    $entityClass->fromArray($this->getAttributes());
+
+    return $entityClass;
+  }
+
 }

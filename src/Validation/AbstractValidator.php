@@ -1,6 +1,6 @@
 <?php namespace Deefour\Aide\Validation;
 
-class AbstractValidator {
+abstract class AbstractValidator {
 
   /**
    * Token -> text translations for validation error messages.
@@ -68,7 +68,7 @@ class AbstractValidator {
    * @return array
    */
   protected function getMessageTemplates() {
-    return $this->messageTemplates;
+    return array_replace($this->messageTemplates, $this->getEntity()->getMessageTemplates());
   }
 
   /**
@@ -117,12 +117,46 @@ class AbstractValidator {
   }
 
   /**
-   * Accessor for the current context
+   * Accessor for the current context.
    *
    * @return array
    */
   public function getContext() {
     return $this->context;
   }
+
+  /**
+   * Parses the validation rules for the current entity set on the validation
+   * instance.
+   *
+   * The return value is an array containing all rule strings for the validator
+   * in the first position, and any callbacks in the second position.
+   *
+   * @return array  [ 'rules', 'callbacks' ]
+   */
+  public function parseValidations() {
+    $rawValidations = $this->getEntity()->validations($this->getContext());
+    $rules          = [];
+    $callbacks      = [];
+
+    foreach ($rawValidations as $key => $rawValidation) {
+      if ($rawValidation instanceof \Closure) {
+        $callbacks[$key] = $rawValidation;
+
+        continue;
+      }
+
+      $rules[$key] = $rawValidation;
+    }
+
+    return [ $rules, $callbacks ];
+  }
+
+  /**
+   * Accessor for the current raw validator instance
+   *
+   * @return mixed
+   */
+  abstract public function getValidator();
 
 }

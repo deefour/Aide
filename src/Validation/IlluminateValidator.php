@@ -22,12 +22,23 @@ class IlluminateValidator extends AbstractValidator implements ValidatorInterfac
    * {@inheritdoc}
    */
   public function isValid() {
-    $data      = $this->entity->getAttributes();
-    $rules     = $this->entity->validations($this->getContext());
-    $validator = $this->validator->make($data, $rules);
-    $isValid   = $validator->passes();
+    $data                    = $this->entity->getAttributes();
+    list($rules, $callbacks) = $this->parseValidations();
+    $validator               = $this->validator->make($data, $rules);
+    $isValid                 = $validator->passes();
 
-    $this->errors = $validator->messages() ?: [];
+    if ($isValid) {
+      foreach ($callbacks as $field => $callback) {
+        $error = call_user_func($callback, $this->getEntity());
+
+        if (is_string($error)) {
+          $isValid = false;
+          $validator->messages()->add($field, $error);
+        }
+      }
+    }
+
+    $this->errors = $validator->messages();
 
     return $isValid;
   }
@@ -52,6 +63,15 @@ class IlluminateValidator extends AbstractValidator implements ValidatorInterfac
     }
 
     return empty($messages) ? false : $messages;
+  }
+
+  /**
+   * {@inheritdoc}
+   *
+   * @return \Illuminate\Validation\Factory
+   */
+  public function getValidator() {
+    return $this->validator;
   }
 
 

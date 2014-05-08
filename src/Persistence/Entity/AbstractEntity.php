@@ -10,6 +10,14 @@ abstract class AbstractEntity implements EntityInterface {
    */
   public $id;
 
+  /**
+   * Custom error message templates for this entity
+   *
+   * @protected
+   * @var array
+   */
+  protected $messageTemplates = [];
+
 
 
   public function __construct($data = null) {
@@ -84,6 +92,13 @@ abstract class AbstractEntity implements EntityInterface {
    */
   public function validations(array $context = []) {
     throw new \BadMethodCallException('A `validations` method has not been defined for this classs');
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getMessageTemplates() {
+    return $this->messageTemplates;
   }
 
 

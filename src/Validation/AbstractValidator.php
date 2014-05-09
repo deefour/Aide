@@ -63,6 +63,29 @@ abstract class AbstractValidator {
   }
 
   /**
+   * Set context for the validator to be passed onto the entity
+   *
+   * @param  array  $context
+   * @return \Deefour\Aide\Validation\ValidatorInterface
+   */
+  public function setContext(array $context) {
+    $this->context = $context;
+
+    return $this;
+  }
+
+  /**
+   * Accessor for the current context.
+   *
+   * @return array
+   */
+  public function getContext() {
+    return $this->context;
+  }
+
+
+
+  /**
    * Accessor for the `$messageTemplates` variable.
    *
    * @return array
@@ -105,36 +128,16 @@ abstract class AbstractValidator {
   }
 
   /**
-   * Set context for the validator to be passed onto the entity
-   *
-   * @param  array  $context
-   * @return \Deefour\Aide\Validation\ValidatorInterface
-   */
-  public function setContext(array $context) {
-    $this->context = $context;
-
-    return $this;
-  }
-
-  /**
-   * Accessor for the current context.
-   *
-   * @return array
-   */
-  public function getContext() {
-    return $this->context;
-  }
-
-  /**
    * Parses the validation rules for the current entity set on the validation
    * instance.
    *
    * The return value is an array containing all rule strings for the validator
    * in the first position, and any callbacks in the second position.
    *
+   * @protected
    * @return array  [ 'rules', 'callbacks' ]
    */
-  public function parseValidations() {
+  protected function parseValidations() {
     $rawValidations = $this->getEntity()->validations($this->getContext());
     $rules          = [];
     $callbacks      = [];
@@ -151,6 +154,8 @@ abstract class AbstractValidator {
 
     return [ $rules, $callbacks ];
   }
+
+
 
   /**
    * Accessor for the current raw validator instance

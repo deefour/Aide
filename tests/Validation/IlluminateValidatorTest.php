@@ -1,10 +1,14 @@
 <?php namespace Deefour\Aide\Validation;
 
 use TestDummy;
+use TestNewsArticle;
 use Deefour\Aide\TestCase;
 use Deefour\Aide\Validation\IlluminateValidator as Validator;
 use Symfony\Component\Translation\Translator;
 use Symfony\Component\Translation\MessageSelector;
+use Illuminate\Validation\Factory;
+
+
 
 class IlluminateValidatorTest extends TestCase {
 
@@ -14,16 +18,6 @@ class IlluminateValidatorTest extends TestCase {
 
   public function testConstruction() {
     $this->assertInstanceOf('\\Deefour\Aide\Validation\\IlluminateValidator', $this->validator);
-  }
-
-  public function testSetGetEntity() {
-    $testDummy = new TestDummy;
-
-    $this->assertNull($this->validator->getEntity());
-
-    $this->validator->setEntity($testDummy);
-
-    $this->assertEquals($testDummy, $this->validator->getEntity());
   }
 
   public function testValidation() {
@@ -51,11 +45,15 @@ class IlluminateValidatorTest extends TestCase {
     $this->assertEmpty($this->validator->errors());
   }
 
+  public function testGetValidator() {
+    $this->assertInstanceOf('Illuminate\Validation\Factory', $this->validator->getValidator());
+  }
+
 
 
   protected function createValidator() {
-    $translator          = new Translator('em', new MessageSelector);
-    $illuminateValidator = new \Illuminate\Validation\Factory($translator);
+    $translator          = new Translator('en', new MessageSelector);
+    $illuminateValidator = new Factory($translator);
 
     return new Validator($illuminateValidator);
   }

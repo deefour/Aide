@@ -4,16 +4,16 @@ Aide provides an abstraction for validating entities using 3rd party validation 
 
 ### Instantiation
 
-To validate an entity, a new instance of the validator must be created. This typically will be done within some sort of service provider.
+To validate an entity, a new instance of the validator must be created. This typically will be done within a service provider.
 
 ```php
-use Symfony\Component\Translation\Loader\ArrayLoader;
 use Illuminate\Validation\Factory;
 use Symfony\Component\Translation\Translator;
 use Deefour\Aide\Validation\IlluminateValidator as Validator;
+use Symfony\Component\Translation\MessageSelector;
 
-$translator = new Translator(new ArrayLoader, 'en');
-$factory    = new Factory($translator);
+$translator = new Translator('en', new MessageSelector);
+$validator  = new Factory($translator);
 
 $validator  = new Validator($factory);
 ```
@@ -55,7 +55,7 @@ public function validations(array $context = []);
 
 __This requires every entity to define a list of rules to be validated against.__
 
-_**Note:** This is a strict requirement. The `AbstractEntity` all entity classes are to extend defines an implementation of this `validations()` method that will throw a `\BadMethodCallException` in an attempt to prevent the developer from forgetting to set up proper validation rules._
+ > _**Note:** This is a strict requirement. The `AbstractEntity` all entity classes are to extend defines an implementation of this `validations()` method that will throw a `\BadMethodCallException` in an attempt to prevent the developer from forgetting to set up proper validation rules._
 
 The `User` entity Aide provides contains a simple set of default rules.
 
@@ -103,7 +103,9 @@ public function validations(array $context = []) {
 
 #### Rule Callbacks
 
-There are times where more complex validation is required for a rule. PHP Closures can be appended to the rules. The current entity bound to the validator will be passed to the Closure.
+There are times where more complex validation is required for a rule. PHP Closures can be appended to the rules. The same context is passed to each Closure rule too.
+
+> **Note:** Both within the `validations()` method itself and the Closure rules, `$this` can be used to access attributes or other methods on the entity instance.
 
 For example, to do a dns lookup against the domain used for the email address on the `User` entity above, the example could be expanded as follows
 
@@ -115,8 +117,8 @@ public function validations(array $context = []) {
     'email'       => [ 'required', 'email' ],
   ];
 
-  $rules['dns-lookup'] = function($entity) {
-    $email  = $entity->email;
+  $rules['dns-lookup'] = function() {
+    $email  = $this->email;
     $domain = substr($email, mb_strpos($email, '@'));
 
     if (dns_get_record($domain) === false) {

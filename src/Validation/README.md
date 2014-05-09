@@ -108,9 +108,6 @@ There are times where more complex validation is required for a rule. PHP Closur
 For example, to do a dns lookup against the domain used for the email address on the `User` entity above, the example could be expanded as follows
 
 ```php
-/**
- * {@inheritdoc}
- */
 public function validations(array $context = []) {
   $rules = [
     'first_name'  => [ 'required', 'between:3,30' ],
@@ -154,9 +151,6 @@ The collection of error messages returned when calling `$validator->errors()` is
 Any entity can define it's own additional message templates. Since there is no default `'invalid-hostname'` message template defined, it can be defined directly on the `User` entity.
 
 ```php
-/**
- * {@inheritdoc}
- */
 protected $messageTemplates = array(
   'invalid-hostname' => '%s contains an invalid/unknown domain',
 );

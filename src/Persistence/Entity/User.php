@@ -30,9 +30,9 @@ class User extends AbstractEntity {
    */
   public function validations(array $context = []) {
     return [
-      'first_name'  => [ 'required', 'between:3,30' ],
-      'last_name'   => [ 'required', 'between:3,30' ],
-      'email'       => [ 'required', 'email' ],
+      'first_name' => [ 'required', 'between:3,30' ],
+      'last_name'  => [ 'required', 'between:3,30' ],
+      'email'      => [ 'required', 'email' ],
     ];
   }
 

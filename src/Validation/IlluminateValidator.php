@@ -29,7 +29,7 @@ class IlluminateValidator extends AbstractValidator implements ValidatorInterfac
 
     if ($isValid) {
       foreach ($callbacks as $field => $callback) {
-        $error = call_user_func($callback, $this->getEntity());
+        $error = call_user_func($callback, $this->getEntity(), $this->getContext());
 
         if (is_string($error)) {
           $isValid = false;

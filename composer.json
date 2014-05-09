@@ -23,7 +23,8 @@
         "illuminate/validation": "4.1.*",
         "silex/silex": "~1.2",
         "mockery/mockery": "0.9.*",
-        "phpunit/phpunit": "4.0.*"
+        "phpunit/phpunit": "4.0.*",
+        "satooshi/php-coveralls": "dev-master"
     },
     "autoload": {
         "psr-4": {
@@ -40,7 +41,7 @@
     },
     "minimum-stability": "dev",
     "suggest": {
-        "illuminate/database": "Eloquent storage driver support",
-        "illuminate/validation": "Laravel-style validation support"
+        "illuminate/database": "A primary purpose of Aide is to work with Laravel's Eloquent storage driver",
+        "illuminate/validation": "Aide comes with support for Laravel's input validation"
     }
 }

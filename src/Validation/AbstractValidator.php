@@ -103,8 +103,9 @@ abstract class AbstractValidator {
    * @return string
    */
   protected function getErrorMessage($fieldName, $error) {
+    $templates       = $this->getMessageTemplates();
     $prettyFieldName = preg_replace('/_/', ' ', $fieldName);
-    $messageTemplate = $this->getMessageTemplates()[$error] ?: $defaultTemplate;
+    $messageTemplate = array_key_exists($error, $templates) ? $templates[$error] : $defaultTemplate;
 
     return sprintf($messageTemplate, $prettyFieldName);
   }

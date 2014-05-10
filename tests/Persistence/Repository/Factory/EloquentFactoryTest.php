@@ -2,6 +2,8 @@
 
 use Deefour\Aide\TestCase;
 
+
+
 class EloquentFactoryTest extends TestCase {
 
   public function testStaticCreation() {

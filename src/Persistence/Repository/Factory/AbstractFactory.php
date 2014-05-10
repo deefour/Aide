@@ -28,11 +28,12 @@ abstract class AbstractFactory implements FactoryInterface {
    * {@inheritdoc}
    */
   public static function create(EntityInterface $entity, array $options = []) {
-    $options    = array_merge(static::$options, $options);
+    static::setOptions($options);
+
     $model      = static::deriveModelName($entity);
     $repository = static::deriveRepositoryName($entity);
 
-    return new $repository(new $model, $options);
+    return new $repository(new $model, static::$options);
   }
 
   /**
@@ -82,14 +83,13 @@ abstract class AbstractFactory implements FactoryInterface {
 
       $modelClass = "\\${driver}\\${classBaseName}";
 
-      if (class_exists($modelClass)) {
+      if (trim($modelClass, '\\') !== trim(get_class($entity), '\\') and class_exists($modelClass)) {
         return $modelClass;
       }
     }
 
-    throw new \Exception(sprintf(
-      'An instance of `%s` could not be derived from the `%s` entity class passed to the `%s::create()` method',
-      "\\Deefour\\Aide\\Persistence\\Model\\${driver}\\Model",
+    throw new \LogicException(sprintf(
+      'A model instance could not be derived from the `%s` entity class passed to the `%s::create()` method',
       get_class($entity),
       get_class($this)
     ));
@@ -118,25 +118,10 @@ abstract class AbstractFactory implements FactoryInterface {
     $driverClassName = "\\${driver}${className}";
 
     if ( ! class_exists($driverClassName)) {
-      throw new \Exception("`${driver}Factory::create` could not instantiate an instance of `${className}` or `${driverClassName}` for the `${fullClassName}` entity");
+      throw new \LogicException("`${driver}Factory::create` could not instantiate an instance of `${className}` or `${driverClassName}` for the `${fullClassName}` entity");
     }
 
     return $driverClassName;
-  }
-
-
-
-  /**
-   * Magic call method to allow the factory to generate repository instances from
-   * an instance of the factory class itself, calling out to the static methods
-   * without throwing warnings.
-   *
-   * @param  string  $method
-   * @param  array   $parameters
-   * @return mixed
-   */
-  public function __call($method, $parameters) {
-    return call_user_func_array(array($this, $method), $parameters);
   }
 
 }

@@ -2,6 +2,8 @@
 
 use Deefour\Aide\TestCase;
 
+
+
 class CsvFactoryTest extends TestCase {
 
   public function testStaticCreation() {
@@ -17,4 +19,13 @@ class CsvFactoryTest extends TestCase {
     $this->assertInstanceOf('\\Csv\\TestDummyRepository', $repository);
   }
 
+  /**
+   * @expectedException \LogicException
+   * @expectedExceptionMessage could not instantiate
+   */
+  public function testDerivedRepositoryException() {
+    $factory = new CsvFactory;
+
+    $factory->create(new \OrphanTestDummy);
+  }
 }

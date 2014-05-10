@@ -4,6 +4,8 @@ use Deefour\Aide\TestCase;
 use TestArticle;
 use Mockery as m;
 
+
+
 class AbstractRepositoryTest extends TestCase {
 
   protected $repository;

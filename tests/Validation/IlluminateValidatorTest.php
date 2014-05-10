@@ -21,17 +21,7 @@ class IlluminateValidatorTest extends TestCase {
   }
 
   public function testValidation() {
-    $invalidTestDummy = new TestDummy(array(
-      'first_name' => 'Jason',
-      'email'      => 'bad_email'
-    ));
-
-    $validTestDummy = new TestDummy(array(
-      'first_name' => 'Jason',
-      'last_name'  => 'Daly',
-      'email'      => 'jason@deefour.me'
-    ));
-
+    list($invalidTestDummy, $validTestDummy) = $this->getStubs();
 
     $this->validator->setEntity($invalidTestDummy);
 
@@ -49,6 +39,18 @@ class IlluminateValidatorTest extends TestCase {
     $this->assertInstanceOf('Illuminate\Validation\Factory', $this->validator->getValidator());
   }
 
+  public function testCallToErrorsTriggersValidationIfNotYetValidated() {
+    list($invalidTestDummy, $validTestDummy) = $this->getStubs();
+
+    $this->validator->setEntity($invalidTestDummy);
+
+    $this->assertNotEmpty($this->validator->errors());
+
+    $this->validator->setEntity($validTestDummy);
+
+    $this->assertFalse($this->validator->errors());
+  }
+
 
 
   protected function createValidator() {
@@ -56,6 +58,21 @@ class IlluminateValidatorTest extends TestCase {
     $illuminateValidator = new Factory($translator);
 
     return new Validator($illuminateValidator);
+  }
+
+  public function getStubs() {
+    $invalidTestDummy = new TestDummy(array(
+      'first_name' => 'Jason',
+      'email'      => 'bad_email'
+    ));
+
+    $validTestDummy = new TestDummy(array(
+      'first_name' => 'Jason',
+      'last_name'  => 'Daly',
+      'email'      => 'jason@deefour.me'
+    ));
+
+    return [ $invalidTestDummy, $validTestDummy ];
   }
 
 }

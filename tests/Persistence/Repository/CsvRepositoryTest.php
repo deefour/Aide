@@ -55,7 +55,7 @@ class CsvRepositoryTest extends TestCase {
     $this->assertCount(2, file($this->repository->getFilename()));
   }
 
-  public function testUpdate() {
+  public function testValidUpdate() {
     list($entity1, $entity2, $model1, $model2) = $this->addTwo();
 
     $entity1->slug = 'an-alternative-slug';
@@ -72,6 +72,21 @@ class CsvRepositoryTest extends TestCase {
     $this->assertEquals('an-alternative-slug', reset($all)->slug);
   }
 
+  /**
+   * @expectedException \Exception
+   * @expectedExceptionMessage does not exist
+   */
+  public function testFailingUpdateOnNonExistentRecord() {
+    $entity = new \TestArticle([
+      'title'  => 'Bad Article',
+      'slug'   => 'non-existent-article',
+      'teaser' => 'a hook',
+      'body'   => 'a longer message',
+    ]);
+
+    $this->repository->update($entity);
+  }
+
   public function testDelete() {
     list($entity1, $entity2, $model1, $model2) = $this->addTwo();
 
@@ -83,6 +98,17 @@ class CsvRepositoryTest extends TestCase {
 
     $this->assertCount(1, $repository->all());
     $this->assertCount(2, file($repository->getFilename()));
+  }
+
+  public function testDeleteNonExistentRecord() {
+    $entity = new \TestArticle([
+      'title'  => 'Bad Article',
+      'slug'   => 'non-existent-article',
+      'teaser' => 'a hook',
+      'body'   => 'a longer message',
+    ]);
+
+    $this->assertNull($this->repository->delete($entity));
   }
 
   public function testFind() {

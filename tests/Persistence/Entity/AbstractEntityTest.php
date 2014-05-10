@@ -51,10 +51,20 @@ class AbstractEntityTest extends TestCase {
   public function testFromArray() {
     $user = new TestDummy($this->data);
 
-    $user->fromArray(array( 'first_name' => 'Jase', 'rejected' => 22 ));
+    $user->fromArray([ 'first_name' => 'Jase', 'rejected' => 22 ]);
 
     $this->assertFalse(property_exists($user, 'rejected'));
     $this->assertEquals('Jase', $user->first_name);
+    $this->assertEquals('Daly', $user->last_name);
+  }
+
+  public function testFromArrayWithFlush() {
+    $user = new TestDummy($this->data);
+
+    $user->fromArray([ 'first_name' => 'Jase' ], true);
+
+    $this->assertEquals('Jase', $user->first_name);
+    $this->assertNull($user->last_name);
   }
 
   public function testToArray() {
@@ -81,6 +91,17 @@ class AbstractEntityTest extends TestCase {
     $user = new TestDummy;
 
     $this->assertTrue(is_array($user->validations()));
+  }
+
+  public function testMagicAttributeAccessors() {
+    $user = new TestDummy($this->data);
+
+    $this->assertEquals('Jason', $user->first_name);
+    $this->assertNull($user->bad_attribute);
+
+    $user->flush();
+
+    $this->assertNull($user->first_name);
   }
 
 }

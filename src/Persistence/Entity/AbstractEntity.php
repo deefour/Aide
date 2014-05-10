@@ -11,12 +11,29 @@ abstract class AbstractEntity implements EntityInterface {
   public $id;
 
   /**
+   * Whether or not this entity's data is related ot a persisted record in the
+   * data store
+   *
+   * @var boolean
+   */
+  public $exists = false;
+
+  /**
    * Custom error message templates for this entity
    *
    * @protected
    * @var array
    */
   protected $messageTemplates = [];
+
+  /**
+   * Whitelist of protected properties that magic __get and __set should allow
+   * read/write access to
+   *
+   * @protected
+   * @var array
+   */
+  protected $nonAttributeProperties = [ 'exists' ];
 
 
 
@@ -104,8 +121,19 @@ abstract class AbstractEntity implements EntityInterface {
 
 
   /**
+   * Accessor for local protected property, providing easy extension point for
+   * inheriting classes.
+   *
+   * @return array
+   */
+  protected function getNonAttributeProperties() {
+    return $this->nonAttributeProperties;
+  }
+
+  /**
    * Builds a whitelist of attributes for use in the setters/getters on the entity.
-   * Currently this simply grabs all public and protected class properties.
+   * Currently this simply grabs all public class properties, filtering out
+   * any that exist in the special list of non-attribute properties.
    *
    * @return array
    */
@@ -115,6 +143,10 @@ abstract class AbstractEntity implements EntityInterface {
     $properties = $reflection->getProperties(\ReflectionProperty::IS_PUBLIC);
 
     foreach ($properties as $property) {
+      if (in_array($property->getName(), $this->getNonAttributeProperties())) {
+        continue;
+      }
+
       $attributes[] = preg_replace('/\*/', '', $property->getName());
     }
 

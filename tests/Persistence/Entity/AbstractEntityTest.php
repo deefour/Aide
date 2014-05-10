@@ -75,6 +75,7 @@ class AbstractEntityTest extends TestCase {
     $user->fromArray($this->data);
 
     $this->assertArrayHasKey('id', $user->toArray());
+    $this->assertArrayNotHasKey('exists', $user->toArray());
     $this->assertEquals($this->data['first_name'], $user->toArray()['first_name']);
   }
 

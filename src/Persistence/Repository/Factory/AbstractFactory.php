@@ -91,7 +91,7 @@ abstract class AbstractFactory implements FactoryInterface {
     throw new \LogicException(sprintf(
       'A model instance could not be derived from the `%s` entity class passed to the `%s::create()` method',
       get_class($entity),
-      get_class($this)
+      get_called_class()
     ));
   }
 

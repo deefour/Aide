@@ -121,24 +121,4 @@ abstract class AbstractEntity implements EntityInterface {
     return $attributes;
   }
 
-
-
-  /**
-   * Magic getter, providing property-level access to protected properties
-   *
-   * @param  mixed  $var
-   * @return mixed
-   */
-  public function __get($var) {
-    if (property_exists($this, $var)) {
-      $reflection = new \ReflectionProperty($this, $var);
-
-      if ($reflection->isProtected()) {
-        return $this->$var;
-      }
-    }
-
-    return null;
-  }
-
 }

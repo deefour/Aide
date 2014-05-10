@@ -93,17 +93,6 @@ class AbstractEntityTest extends TestCase {
     $this->assertTrue(is_array($user->validations()));
   }
 
-  public function testMagicAttributeAccessors() {
-    $user = new TestDummy($this->data);
-
-    $this->assertEquals('Jason', $user->first_name);
-    $this->assertNull($user->bad_attribute);
-
-    $user->flush();
-
-    $this->assertNull($user->first_name);
-  }
-
 }
 
 

@@ -95,14 +95,10 @@ abstract class Model implements \ArrayAccess, ModelInterface {
    * @return string
    */
   protected function setId($length = 7) {
-    if ($length > 32) {
-      $length = 32;
-    } elseif ($length < 3) {
-      $length = 7;
-    }
+    $length = min(32, max(7, $length));
 
     if ( ! $this->getId()) {
-      $this->setAttribute($this->primaryKey, substr(md5(rand()), 0, $length));
+      $this->attributes[$this->primaryKey] = substr(md5(rand()), 0, $length);
     }
 
     return $this->getId();
@@ -130,9 +126,11 @@ abstract class Model implements \ArrayAccess, ModelInterface {
    * @return boolean whether or not it was saved (TRUE if the column is valid/white-listed)
    */
   public function setAttribute($key, $value) {
-    if ($this->isColumn($key)) {
-      $this->attributes[$key] = $value;
+    if ( ! $this->isColumn($key)) {
+      return false;
     }
+
+    $this->attributes[$key] = $value;
 
     return $this->isColumn($key);
   }
@@ -203,17 +201,7 @@ abstract class Model implements \ArrayAccess, ModelInterface {
       return;
     }
 
-    if ( ! property_exists($this, $key)) {
-      $this->$key = $value;
-
-      return;
-    }
-
-    $reflection = new \ReflectionProperty($this, $key);
-
-    if ($reflection->isPublic()) {
-      $this->$key = $value;
-    }
+    $this->$key = $value;
   }
 
 

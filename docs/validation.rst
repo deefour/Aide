@@ -1,12 +1,14 @@
 Validation
 ==========
 
-Aide provides an abstraction for validating entities using 3rd party validation libraries. Out of the box Aide supports Laravel's validator from the `illuminate/validation package <https://packagist.org/packages/illuminate/validation>`_. The example below will use the ``\Deefour\Aide\Validation\IlluminateValidator``.
+Aide provides an abstraction for validating entities using 3rd party validation libraries. Out of the box Aide supports Laravel's validator from the `illuminate/validation package <https://packagist.org/packages/illuminate/validation>`_. The example below will use the :class:`Deefour\\Aide\\Validation\\IlluminateValidator`.
 
 Instantiation
 -------------
 
-To validate an entity, a new instance of the validator must be created. This typically will be done within a service provider.::
+To validate an entity, a new instance of the validator must be created. This typically will be done within a service provider.
+
+.. code-block:: php
 
     use Illuminate\Validation\Factory;
     use Symfony\Component\Translation\Translator;
@@ -21,7 +23,9 @@ To validate an entity, a new instance of the validator must be created. This typ
 Usage
 -----
 
-With this new ``$validator`` instance, any class that extends ``Deefour\Aide\Validation\ValidatableInterface`` can be validated easily. For example, given the following ``User`` entity::
+With this new ``$validator`` instance, any class that extends :class:`Deefour\\Aide\\Validation\\ValidatableInterface` can be validated easily. For example, given the following ``User`` entity
+
+.. code-block:: php
 
     // AbstractEntity implements the Deefour\Aide\Validation\ValidatableInterface
     use Deefour\Aide\Persistence\Entity\AbstractEntity;
@@ -42,7 +46,9 @@ With this new ``$validator`` instance, any class that extends ``Deefour\Aide\Val
 
     }
 
-validation on a ``Article`` instance could be done as follows::
+validation on a ``Article`` instance could be done as follows
+
+.. code-block:: php
 
     $entity = new Article([ 'title' => 'A Great Title', 'body' => 'Lots of text...' ]);
 
@@ -54,13 +60,16 @@ validation on a ``Article`` instance could be done as follows::
 
 The raw validation instance behind the abstraction Aide provides can also be accessed.
 
+.. code-block:: php
+
     $validator->getValidator(); // returns the \Illuminate\Validation\Factory instance
 
 Validation Rules
 ^^^^^^^^^^^^^^^^
 
-Part of the ``Deefour\Aide\Validation\ValidatableInterface`` contract is the following::
+Part of the ``Deefour\Aide\Validation\ValidatableInterface`` contract is the following
 
+.. code-block:: php
 
     /**
      * List of rules to use in the validation abstraction layer to ensure all required
@@ -71,9 +80,11 @@ Part of the ``Deefour\Aide\Validation\ValidatableInterface`` contract is the fol
      */
     public function validations(array $context = []);
 
-.. note:: This is a strict requirement. The ``AbstractEntity`` all entity classes are to extend defines an implementation of this ``validations()`` method that will throw a ``\BadMethodCallException`` in an attempt to prevent the developer from forgetting to set up proper validation rules.
+.. note:: This is a strict requirement. The :class:`Deefour\\Aide\\Persistence\\Entity\\AbstractEntity` class that all entity classes are to extend defines an implementation of this ``validations()`` method that will throw a ``\BadMethodCallException`` in an attempt to prevent the developer from forgetting to set up proper validation rules.
 
-The ``User`` entity Aide provides contains a simple set of default rules.::
+The ``User`` entity Aide provides contains a simple set of default rules.
+
+.. code-block:: php
 
     public function validations(array $context = []) {
       return [
@@ -92,14 +103,18 @@ When there is a need to validate against external data, configuration, etc..., a
 
 With the context being passed into the ``validations()`` method, rules can be conditionally set.
 
-First, set the entity and context on the validator::
+First, set the entity and context on the validator
+
+.. code-block:: php
 
     $user = new User([ 'first_name' => 'Jason', 'email' => 'jason@deefour.me' ]);
 
     $validator->setEntity($user)
               ->setContext([ 'last_name_max' => 20 ]);
 
-Then refer to the context and make the validation rule dependent on it's value.::
+Then refer to the context and make the validation rule dependent on it's value.
+
+.. code-block:: php
 
     public function validations(array $context = []) {
       $lastNameMax = array_key_exists('last_name_max', $context) ? $context['last_name_max'] : 30;
@@ -118,7 +133,9 @@ There are times where more complex validation is required for a rule. PHP Closur
 
 > **Note:** Both within the ``validations()`` method itself and the Closure rules, ``$this`` can be used to access attributes or other methods on the entity instance.
 
-For example, to do a dns lookup against the domain used for the email address on the ``User`` entity above, the example could be expanded as follows::
+For example, to do a dns lookup against the domain used for the email address on the ``User`` entity above, the example could be expanded as follows
+
+.. code-block:: php
 
     public function validations(array $context = []) {
       $rules = [
@@ -145,7 +162,9 @@ The validation Closure will be considered failing if a string is returned. The r
 Message Templates
 ^^^^^^^^^^^^^^^^^
 
-The base ``Deefour\Aide\Validation\AbstractValidator`` instance has a currently-very-limited-but-growing set of error message templates.::
+The base :class:`Deefour\\Aide\\Validation\\AbstractValidator` instance has a currently-very-limited-but-growing set of error message templates.
+
+.. code-block:: php
 
     protected $messageTemplates = array(
       'required'       => '%s is required',
@@ -159,7 +178,9 @@ The collection of error messages returned when calling ``$validator->errors()`` 
 Entity Message Templates
 """"""""""""""""""""""""
 
-Any entity can define it's own additional message templates. Since there is no default ``'invalid-hostname'`` message template defined, it can be defined directly on the ``User`` entity.::
+Any entity can define it's own additional message templates. Since there is no default ``'invalid-hostname'`` message template defined, it can be defined directly on the ``User`` entity.
+
+.. code-block:: php
 
     protected $messageTemplates = array(
       'invalid-hostname' => '%s contains an invalid/unknown domain',
@@ -168,7 +189,9 @@ Any entity can define it's own additional message templates. Since there is no d
 An Example
 ----------
 
-Let's look at a full example within the context of a Laravel controller action.::
+Let's look at a full example within the context of a Laravel controller action.
+
+.. code-block:: php
 
     public function update($id) {
       $user      = User::find($id)->toEntity(); // toEntity() is an Aide method

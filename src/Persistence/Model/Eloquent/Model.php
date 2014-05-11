@@ -43,11 +43,7 @@ abstract class Model extends Eloquent implements ModelInterface {
    */
   public function toEntity() {
     $fullName = get_class($this);  // ie. \Eloquent\User
-    list($namespace, $baseName) = explode('\\', $fullName);
-
-    if (is_null($baseName)) {
-      $baseName = $namespace;
-    }
+    list($namespace, $baseName) = array_pad(explode('\\', $fullName), -2, null);
 
     if ($this instanceof EntityInferface) {
       return clone $this;

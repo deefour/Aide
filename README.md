@@ -16,7 +16,7 @@ Contribute
 
 ## Documentation
 
-Documentation can be found in `README.md` files throughout the source code.
+Documentation can be found on [**Read the Docs**](http://aide.readthedocs.org/en/latest) in the [`docs/`](https://github.com/deefour/Aide/blob/master/docs) in the project source.
 
  - Validation: [Github](https://github.com/deefour/Aide/blob/master/docs/validation.rst) | [Read the Docs](http://aide.readthedocs.org/en/latest/validation.html)
 

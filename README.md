@@ -18,7 +18,7 @@ Contribute
 
 Documentation can be found in `README.md` files throughout the source code.
 
- - Validation: [Github](https://github.com/deefour/Aide/blob/master/src/docs/validation.rst) | [Read the Docs](http://aide.readthedocs.org/en/latest/validation.html)
+ - Validation: [Github](https://github.com/deefour/Aide/blob/master/docs/validation.rst) | [Read the Docs](http://aide.readthedocs.org/en/latest/validation.html)
 
 ## Changelog
 

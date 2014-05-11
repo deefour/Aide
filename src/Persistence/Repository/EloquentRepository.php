@@ -17,14 +17,14 @@ abstract class EloquentRepository extends AbstractRepository implements Reposito
   /**
    * {@inheritdoc}
    */
-  public function create(EntityInterface $entity) {
+  public function create(EntityInterface $entity, array $options = []) {
     $model = $entity;
 
     if ( ! $entity instanceof ModelInterface) {
       $model = $this->model->newInstance($entity->getAttributes());
     }
 
-    if ( ! $model->save()) {
+    if ( ! $model->save($options)) {
       return false;
     }
 
@@ -36,14 +36,14 @@ abstract class EloquentRepository extends AbstractRepository implements Reposito
   /**
    * {@inheritdoc}
    */
-  public function update(EntityInterface $entity) {
+  public function update(EntityInterface $entity, array $options = []) {
     $model = $entity;
 
     if ( ! $entity instanceof ModelInterface) {
       $model = $this->model->newInstance($entity->getAttributes(), true);
     }
 
-    if ( ! $model->save()) {
+    if ( ! $model->save($options)) {
       return false;
     }
 
@@ -60,7 +60,7 @@ abstract class EloquentRepository extends AbstractRepository implements Reposito
       return true;
     }
 
-    return $this->query()->where('id', $id)->delete();
+    return $this->query()->where('id', $entity->id)->delete();
   }
 
   /**

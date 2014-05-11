@@ -10,26 +10,29 @@ interface RepositoryInterface {
    * Persists a new record into the storage backend.
    *
    * @param  Deefour\Aide\Persistence\Entity\EntityInterface  $entity
+   * @param  array                                            $options
    * @return Deefour\Aide\Persistence\Model\ModelInterface
    */
-  public function create(EntityInterface $entity);
+  public function create(EntityInterface $entity, array $options = []);
 
   /**
    * Persists an _existing_ record into the storage backend.
    *
    * @param  Deefour\Aide\Persistence\Entity\EntityInterface  $entity
+   * @param  array                                            $options
    * @return Deefour\Aide\Persistence\Model\ModelInterface
    */
-  public function update(EntityInterface $entity);
+  public function update(EntityInterface $entity, array $options = []);
 
   /**
    * Convenience method; creates non-existent entities and updates existing ones.
    * This is just a passthru to the create/update methods on the repository
    *
    * @param  Deefour\Aide\Persistence\Entity\EntityInterface  $entity
+   * @param  array                                            $options
    * @return boolean
    */
-  public function upsert(EntityInterface $entity);
+  public function upsert(EntityInterface $entity, array $options = []);
 
   /**
    * Removes a record from the storage backend if it exists; removes it from

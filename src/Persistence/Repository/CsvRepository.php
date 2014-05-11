@@ -69,7 +69,7 @@ abstract class CsvRepository extends AbstractRepository implements RepositoryInt
   /**
    * {@inheritdoc}
    */
-  public function create(EntityInterface $entity) {
+  public function create(EntityInterface $entity, array $options = []) {
     $model = $this->model->newInstance($entity->toArray());
 
     $this->records[$model->id] = $model;
@@ -85,7 +85,7 @@ abstract class CsvRepository extends AbstractRepository implements RepositoryInt
    * @throws Exception if the model doesn't yet exist in the store (the in-memory
    * copy is checked)
    */
-  public function update(EntityInterface $entity) {
+  public function update(EntityInterface $entity, array $options = []) {
     if ( ! array_key_exists($entity->id, $this->records)) {
       throw new \Exception(sprintf('Model with id `%s` does not exist', $entity->id));
     }

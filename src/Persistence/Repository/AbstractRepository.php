@@ -32,12 +32,12 @@ abstract class AbstractRepository implements RepositoryInterface {
   /**
    * {@inheritdoc}
    */
-  public function upsert(EntityInterface $entity) {
+  public function upsert(EntityInterface $entity, array $options = []) {
     if ( ! $entity->exists) {
-      return $this->create($entity);
+      return $this->create($entity, $options);
     }
 
-    return $this->update($entity);
+    return $this->update($entity, $options);
   }
 
   /**

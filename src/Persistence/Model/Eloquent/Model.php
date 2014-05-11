@@ -45,8 +45,12 @@ abstract class Model extends Eloquent implements ModelInterface {
     $fullName = get_class($this);  // ie. \Eloquent\User
     list($namespace, $baseName) = explode('\\', $fullName);
 
+    if (is_null($baseName)) {
+      $baseName = $namespace;
+    }
+
     if ($this instanceof EntityInferface) {
-      return $this;
+      return clone $this;
     }
 
     $choices = array(
@@ -82,6 +86,7 @@ abstract class Model extends Eloquent implements ModelInterface {
     }
 
     $entityClass->fromArray($this->getAttributes());
+    $entityClass->exists = $this->exists;
 
     return $entityClass;
   }

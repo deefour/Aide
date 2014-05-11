@@ -5,11 +5,4 @@ use Deefour\Aide\Persistence\Entity\EntityInterface;
 
 class EntityModel extends Model implements EntityInterface {
 
-  /**
-   * {@inheritdoc}
-   */
-  public function validations(array $context = []) {
-    return [];
-  }
-
 }

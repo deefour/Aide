@@ -83,7 +83,7 @@ The ``User`` entity Aide provides contains a simple set of default rules.::
       ];
     }
 
-The keys match attribute names. The values are arrays of strings matching the format Laravel's validator expects. See the [basic usage](http://laravel.com/docs/validation#basic-usage) for Laravel's Validator to learn more about the above syntax.
+The keys match attribute names. The values are arrays of strings matching the format Laravel's validator expects. See the `basic usage <http://laravel.com/docs/validation#basic-usage>`_ for Laravel's Validator to learn more about the above syntax.
 
 Context
 ^^^^^^^

@@ -1,4 +1,5 @@
-# Aide
+Aide
+####
 
 [![Build Status](https://travis-ci.org/deefour/Aide.svg)](https://travis-ci.org/deefour/Aide)
 [![Packagist Version](http://img.shields.io/packagist/v/deefour/Aide.svg)](https://packagist.org/packages/deefour/Aide)
@@ -7,13 +8,24 @@
 
 A set of classes to assist Laravel and Silex development.
 
+Contribute
+----------
+
+- Issue Tracker: https://github.com/deefour/aide/issues
+- Source Code: https://github.com/deefour/aide
+
 ## Documentation
 
 Documentation can be found in `README.md` files throughout the source code.
 
- - [Validation](https://github.com/deefour/Aide/blob/master/src/Validation/README.md)
+ - Validation: [Github](https://github.com/deefour/Aide/blob/master/src/docs/validation.rst) | [Read the Docs](http://aide.readthedocs.org/en/latest/validation.html)
 
 ## Changelog
+
+#### 0.3.0 - May 11, 2014
+
+ - 100% test coverage
+ - Docs moved to readthedocs.org
 
 #### 0.2.0 - May 9, 2014
 

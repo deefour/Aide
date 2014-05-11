@@ -21,7 +21,7 @@ class CsvFactoryTest extends TestCase {
 
   /**
    * @expectedException \LogicException
-   * @expectedExceptionMessage could not instantiate
+   * @expectedExceptionMessage could not derive
    */
   public function testDerivedRepositoryException() {
     $factory = new CsvFactory;

@@ -104,24 +104,29 @@ abstract class AbstractFactory implements FactoryInterface {
    * @return string
    */
   protected static function deriveRepositoryName(EntityInterface $entity) {
-    $driver = static::$driver;
+    list($fullClassName, $namespace, $classBaseName) = array_pad(static::parseClassName($entity), 3, null);
 
-    list($fullClassName, $namespace, $classBaseName) = static::parseClassName($entity);
-    $className = sprintf('%s\\%sRepository', $namespace, $classBaseName);
+    $repositoryName = null;
+    $driver         = static::$driver;
+    $className      = sprintf('%s\\%sRepository', $namespace, $classBaseName);
+    $choices        = [
+      $className,
+      "\\${driver}${className}",
+    ];
 
-    if (class_exists($className)) {
-      return $className;
+    foreach ($choices as $className) {
+      if (class_exists($className)) {
+        $repositoryName = $className;
+
+        break;
+      }
     }
 
-    // the repository class could not be found within the global namespace. Let's look
-    // into the namespace matching the persistence driver
-    $driverClassName = "\\${driver}${className}";
-
-    if ( ! class_exists($driverClassName)) {
-      throw new \LogicException("`${driver}Factory::create` could not instantiate an instance of `${className}` or `${driverClassName}` for the `${fullClassName}` entity");
+    if (is_null($repositoryName)) {
+      throw new \LogicException("`${driver}Factory::create` could not derive the repository class name for the `${fullClassName}` entity");
     }
 
-    return $driverClassName;
+    return $repositoryName;
   }
 
 }

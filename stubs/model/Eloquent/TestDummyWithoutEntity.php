@@ -2,4 +2,4 @@
 
 use Deefour\Aide\Persistence\Model\Eloquent\Model;
 
-class TestDummy extends Model { }
+class TestDummyWithoutEntity extends Model { }

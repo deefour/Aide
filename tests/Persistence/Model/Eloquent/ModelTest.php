@@ -2,6 +2,7 @@
 
 use Deefour\Aide\TestCase;
 use Eloquent\TestDummy;
+use Eloquent\TestDummyWithoutEntity;
 
 class ModelTest extends TestCase {
 
@@ -86,6 +87,16 @@ class ModelTest extends TestCase {
     $this->assertEquals($entity, $model);
     $this->assertEquals('Jason', $entity->first_name);
     $this->assertEquals($model->first_name, $entity->first_name);
+  }
+
+  /**
+   * @expectedException \LogicException
+   * @expectedExceptionMessage Could not derive
+   */
+  public function testToEntityOnModelWithoutEntity() {
+    $model = new TestDummyWithoutEntity;
+
+    $model->toEntity();
   }
 
 }

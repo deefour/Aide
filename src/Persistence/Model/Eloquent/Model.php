@@ -4,6 +4,8 @@ use Illuminate\Database\Eloquent\Model as Eloquent;
 use Deefour\Aide\Persistence\Model\ModelInterface;
 use Deefour\Aide\Persistence\Entity\EntityInterface;
 
+
+
 abstract class Model extends Eloquent implements ModelInterface {
 
   /**
@@ -42,36 +44,33 @@ abstract class Model extends Eloquent implements ModelInterface {
    * @return \Deefour\Aide\Persistence\Entity\EntityInterface
    */
   public function toEntity() {
-    $fullName = get_class($this);  // ie. \Eloquent\User
+    $entityClass = null;
+    $fullName    = get_class($this);  // ie. \Eloquent\User
+
     list($namespace, $baseName) = array_pad(explode('\\', $fullName), -2, null);
 
-    if ($this instanceof EntityInferface) {
-      return clone $this;
-    }
+    if ($this instanceof EntityInterface) {
+      $entityClass = $this;
+    } else {
+      $choices = array(
+        "\\{$baseName}",       // \User
+        "\\${baseName}Entity", // \UserEntity
+        "\\${fullName}Entity", // \Eloquent\UserEntity
+        "\\Entity${baseName}", // \Entity\User
+      );
 
-    $choices = array(
-      "\\{$baseName}",       // \User
-      "\\${baseName}Entity", // \UserEntity
-      "\\${fullName}Entity", // \Eloquent\UserEntity
-      "\\Entity${baseName}", // \Entity\User
-    );
+      foreach ($choices as $entityName) {
+        if ( ! class_exists($entityName) or  ! (new $entityName instanceof EntityInterface)) {
+          continue;
+        }
 
-    foreach ($choices as $entityName) {
-      if ( ! class_exists($entityName)) {
-        continue;
-      }
-
-      $entityClass = new $entityName;
-
-      if ($entityClass instanceof EntityInterface) {
+        $entityClass = new $entityName;
         break;
-      } else {
-        $entityClass = null;
       }
     }
 
     if ( ! $entityClass) {
-      throw new \Exception(
+      throw new \LogicException(
         sprintf(
           'Could not derive an entity class for the `%s` model. Looked for the
            following entity classes: `%s`',

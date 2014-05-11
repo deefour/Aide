@@ -39,4 +39,4 @@ Documentation can be found on [**Read the Docs**](http://aide.readthedocs.org/en
 
 ## License
 
-Copyright (c) 2014 Jason Daly *(deefour)*. Released under the [MIT License](http://deefour.mit-license.org/)
+Copyright (c) 2014 [Jason Daly](http://www.deefour.me) ([deefour](https://github.com/deefour)). Released under the [MIT License](http://deefour.mit-license.org/).

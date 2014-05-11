@@ -12,7 +12,7 @@ interface ValidatorInterface {
    *
    * @param  \Deefour\Aide\Persistence\Entity\EntityInterface  $entity
    */
-  public function setEntity(\Deefour\Aide\Persistence\Entity\EntityInterface $entity);
+  public function setEntity(\Deefour\Aide\Validation\ValidatableInterface $entity);
 
   /**
    * Accessor for the previously-set entity on the validation class instance

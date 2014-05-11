@@ -2,4 +2,4 @@
 
 use Deefour\Aide\Persistence\Repository\EloquentRepository;
 
-class TestDummyRepository extends EloquentRepository { }
+class EntityModelRepository extends EloquentRepository { }

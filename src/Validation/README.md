@@ -20,10 +20,33 @@ $validator  = new Validator($factory);
 
 ### Usage
 
-With this new `$validator` instance, entities can be validated easily.
+With this new `$validator` instance, any class that extends `Deefour\Aide\Validation\ValidatableInterface` can be validated easily. For example, given the following `User` entity:
 
 ```php
-$entity = new User([ 'first_name' => 'Jason', 'last_name' => 'Daly' ]);
+// AbstractEntity implements the Deefour\Aide\Validation\ValidatableInterface
+use Deefour\Aide\Persistence\Entity\AbstractEntity;
+
+class Article extends AbstractEntity {
+
+  // attributes
+  public $title;
+  public $body;
+
+  // validation rules
+  public function validations() {
+    return [
+      'title' => 'required',
+      'body'  => 'required',
+    ];
+  }
+
+}
+```
+
+validation on a `Article` instance could be done as follows:
+
+```php
+$entity = new Article([ 'title' => 'A Great Title', 'body' => 'Lots of text...' ]);
 
 $validator->setEntity($entity);
 
@@ -40,7 +63,7 @@ $validator->getValidator(); // returns the \Illuminate\Validation\Factory instan
 
 ### Validation Rules
 
-Part of the `Deefour\Aide\Persistence\Entity\EntityInterface` contract is the following
+Part of the `Deefour\Aide\Validation\ValidatableInterface` contract is the following
 
 ```php
 /**

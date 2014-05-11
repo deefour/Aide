@@ -46,7 +46,7 @@ abstract class AbstractValidator {
   /**
    * {@inheritdoc}
    */
-  public function setEntity(\Deefour\Aide\Persistence\Entity\EntityInterface $entity) {
+  public function setEntity(\Deefour\Aide\Validation\ValidatableInterface $entity) {
     $this->flushErrors();
     $this->flushContext();
 

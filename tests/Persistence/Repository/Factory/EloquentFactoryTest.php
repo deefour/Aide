@@ -19,4 +19,11 @@ class EloquentFactoryTest extends TestCase {
     $this->assertInstanceOf('\\Eloquent\\TestDummyRepository', $repository);
   }
 
+  public function testCreationFromModel() {
+    $factory    = new EloquentFactory;
+    $repository = $factory->create(new \EntityModel);
+
+    $this->assertInstanceOf('\\Eloquent\\EntityModelRepository', $repository);
+  }
+
 }

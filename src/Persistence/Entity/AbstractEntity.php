@@ -1,6 +1,10 @@
 <?php namespace Deefour\Aide\Persistence\Entity;
 
-abstract class AbstractEntity implements EntityInterface {
+use Deefour\Aide\Validation\ValidatableInterface;
+
+
+
+abstract class AbstractEntity implements EntityInterface, ValidatableInterface {
 
   /**
    * By default all entities have the id attribute available as the unique
@@ -112,7 +116,9 @@ abstract class AbstractEntity implements EntityInterface {
   }
 
   /**
-   * {@inheritdoc}
+   * A list of error message templates specific to this entity.
+   *
+   * @return array
    */
   public function getMessageTemplates() {
     return $this->messageTemplates;

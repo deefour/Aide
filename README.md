@@ -4,7 +4,8 @@
 [![Build Status](https://travis-ci.org/deefour/Aide.svg)](https://travis-ci.org/deefour/Aide)
 [![Packagist Version](http://img.shields.io/packagist/v/deefour/Aide.svg)](https://packagist.org/packages/deefour/Aide)
 [![Latest Version](http://img.shields.io/github/tag/deefour/Aide.svg)](https://github.com/deefour/Aide/releases)
-[![Coverage Status](https://img.shields.io/coveralls/deefour/Aide.svg)](https://coveralls.io/r/deefour/Aide)
+[![Coverage
+Status](https://coveralls.io/repos/deefour/Aide/badge.png?branch=master)](https://coveralls.io/r/deefour/Aide?branch=master)
 
 A set of classes to assist Laravel and Silex development.
 

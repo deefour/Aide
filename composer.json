@@ -34,7 +34,7 @@
     "autoload-dev": {
         "classmap": [
           "stubs/",
-          "stubs/model/"
+          "stubs/models/",
         ],
         "psr-4": {
             "Deefour\\Aide\\": "tests/"

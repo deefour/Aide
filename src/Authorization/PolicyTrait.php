@@ -11,17 +11,13 @@ trait PolicyTrait {
   protected static function getPolicyScope($user, $scope) {
     $policyScope = (new Finder($scope))->scope();
 
-    if ($policyScope) {
-      return (new $policyScope($user, $scope))->resolve();
-    }
+    return $policyScope ? (new $policyScope($user, $scope))->resolve() : null;
   }
 
   protected static function getPolicy($user, $record) {
     $policy = (new Finder($record))->policy();
 
-    if ($policy) {
-      return new $policy($user, $record);
-    }
+    return $policy ? new $policy($user, $record) : null;
   }
 
   protected static function getPolicyScopeOrFail($user, $scope) {

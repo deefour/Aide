@@ -35,6 +35,8 @@
         "classmap": [
           "stubs/",
           "stubs/models/",
+          "stubs/policies/",
+          "stubs/scopes/"
         ],
         "psr-4": {
             "Deefour\\Aide\\": "tests/"

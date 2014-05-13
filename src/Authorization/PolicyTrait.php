@@ -2,8 +2,6 @@
 
 trait PolicyTrait {
 
-  protected $policy;
-
   protected $_policyScoped;
 
   protected $_policyAuthorized;
@@ -52,21 +50,28 @@ trait PolicyTrait {
     }
   }
 
-  protected function authorize($entity, $method = null) {
-    $className       = get_class($entity);
-    $policyClassName = "${className}Policy";
+  protected function authorize($record, $method = null) {
+    $className = get_class($record);
 
     $this->_policyAuthorized = true;
 
     if (is_null($method)) {
-      list(, $method) = debug_backtrace(false);
+      $method = debug_backtrace(false)[1]['function'];
     }
 
-    $policy = new $policyClassName($this->currentUser(), $entity);
+    $policy = $this->policy($record);
 
     if ( ! $policy->$method()) {
-      // abort 401 unauthorized
+      $exception = new NotAuthorizedException("Not allowed to `${method}` this `${className}`");
+
+      $exception->method = $method;
+      $exception->policy = $policy;
+      $exception->record = $record;
+
+      throw $exception;
     }
+
+    return true;
   }
 
   protected function policyScope($scope) {
@@ -75,16 +80,12 @@ trait PolicyTrait {
     return static::getPolicyScopeOrFail($this->currentUser(), $scope);
   }
 
-  protected function policy($entity) {
-    return static::getPolicyOrFail($this->currentUser(), $entity);
+  protected function policy($record) {
+    return static::getPolicyOrFail($this->currentUser(), $record);
   }
 
-  protected function currentUser() {
-    return Auth::user();
-  }
 
-  public function __callStatic($method, $parameters) {
-    return forward_static_call_array('get' . ucFirst($method), $parameters);
-  }
+
+  abstract protected function currentUser();
 
 }

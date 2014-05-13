@@ -47,19 +47,16 @@ trait PolicyTrait {
   }
 
   protected function authorize($record, $method = null) {
-    $className = get_class($record);
+    $className   = get_class($record);
+    $policyClass = 'Deefour\\Aide\\Authorization\\Policy';
 
     $this->_policyAuthorized = true;
 
     if (is_null($method)) {
       $method = debug_backtrace(false)[1]['function'];
 
-      if ($method === 'call_user_func_array') {
-        $policyClass = 'Deefour\\Aide\\Authorization\\Policy';
-
-        if ($policyClass === debug_backtrace(false)[0]['class']) {
-          throw new \InvalidArgumentException("No method/action passed to static `${policyClass}::authorize()` call.");
-        }
+      if ($method === 'call_user_func_array' and $policyClass === debug_backtrace(false)[0]['class']) {
+        throw new \InvalidArgumentException("No method/action passed to static `${policyClass}::authorize()` call.");
       }
     }
 

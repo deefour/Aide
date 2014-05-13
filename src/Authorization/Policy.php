@@ -8,7 +8,7 @@ class Policy {
 
   protected $user;
 
-  private $publicApi = [ 'authorize', 'policy', 'policyScope' ];
+  private $publicApi = [ 'authorize', 'policy', 'scope' ];
 
 
 

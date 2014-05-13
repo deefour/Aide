@@ -12,7 +12,7 @@ class AuthorizationController {
 
   public function edit() {
     $this->authorize(new TestArticle);
-    $this->policyScope(new TestArticle);
+    $this->scope(new TestArticle);
   }
 
   // passthru for protected trait methods

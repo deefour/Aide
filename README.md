@@ -20,8 +20,13 @@ Contribute
 Documentation can be found on [**Read the Docs**](http://aide.readthedocs.org/en/latest) in the [`docs/`](https://github.com/deefour/Aide/blob/master/docs) in the project source.
 
  - Validation: [Github](https://github.com/deefour/Aide/blob/master/docs/validation.rst) | [Read the Docs](http://aide.readthedocs.org/en/latest/validation.html)
+ - Authorization: [Github](https://github.com/deefour/Aide/blob/master/docs/authorization.rst) | [Read the Docs](http://aide.readthedocs.org/en/latest/authorization.html)
 
 ## Changelog
+
+#### 0.4.0 - May 13, 2014
+
+ - New authorization component, based on the popular Ruby gem, [Pundit](https://github.com/elabs/pundit).
 
 #### 0.3.0 - May 11, 2014
 

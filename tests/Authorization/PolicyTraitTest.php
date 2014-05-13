@@ -16,7 +16,7 @@ class PolicyTraitTest extends TestCase {
   }
 
   public function testGetPolicyScope() {
-    $this->assertEquals('scoped', $this->controller->getPolicyScope($this->user, new TestArticle));
+    $this->assertEquals('scoped', $this->controller->getScope($this->user, new TestArticle));
   }
 
   public function testGetPolicy() {
@@ -27,9 +27,9 @@ class PolicyTraitTest extends TestCase {
    * @expectedException Deefour\Aide\Authorization\NotDefinedException
    */
   public function testGetPolicyScopeOrFail() {
-    $this->assertEquals('scoped', $this->controller->getPolicyScopeOrFail($this->user, new TestArticle));
+    $this->assertEquals('scoped', $this->controller->getScopeOrFail($this->user, new TestArticle));
 
-    $this->controller->getPolicyScopeOrFail($this->user, new TestDummy);
+    $this->controller->getScopeOrFail($this->user, new TestDummy);
   }
 
   /**
@@ -79,7 +79,7 @@ class PolicyTraitTest extends TestCase {
   }
 
   public function testPolicyScope() {
-    $this->assertEquals('scoped', $this->controller->policyScope(new TestArticle));
+    $this->assertEquals('scoped', $this->controller->scope(new TestArticle));
   }
 
   public function testPolicy() {

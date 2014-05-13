@@ -8,7 +8,7 @@ trait PolicyTrait {
 
 
 
-  protected static function getPolicyScope($user, $scope) {
+  protected static function getScope($user, $scope) {
     $policyScope = (new Finder($scope))->scope();
 
     return $policyScope ? (new $policyScope($user, $scope))->resolve() : null;
@@ -20,7 +20,7 @@ trait PolicyTrait {
     return $policy ? new $policy($user, $record) : null;
   }
 
-  protected static function getPolicyScopeOrFail($user, $scope) {
+  protected static function getScopeOrFail($user, $scope) {
     $policyScope = (new Finder($scope))->scopeOrFail();
 
     return (new $policyScope($user, $scope))->resolve();
@@ -53,6 +53,14 @@ trait PolicyTrait {
 
     if (is_null($method)) {
       $method = debug_backtrace(false)[1]['function'];
+
+      if ($method === 'call_user_func_array') {
+        $policyClass = 'Deefour\\Aide\\Authorization\\Policy';
+
+        if ($policyClass === debug_backtrace(false)[0]['class']) {
+          throw new \InvalidArgumentException("No method/action passed to static `${policyClass}::authorize()` call.");
+        }
+      }
     }
 
     $policy = $this->policy($record);
@@ -70,10 +78,10 @@ trait PolicyTrait {
     return true;
   }
 
-  protected function policyScope($scope) {
+  protected function scope($scope) {
     $this->_policyScoped = true;
 
-    return static::getPolicyScopeOrFail($this->currentUser(), $scope);
+    return static::getScopeOrFail($this->currentUser(), $scope);
   }
 
   protected function policy($record) {

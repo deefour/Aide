@@ -17,7 +17,7 @@ class PolicyTest extends TestCase {
   }
 
   public function testPolicyScope() {
-    $this->assertEquals('scoped', Policy::policyScope(new TestUser, new TestArticle));
+    $this->assertEquals('scoped', Policy::scope(new TestUser, new TestArticle));
   }
 
   public function testPolicy() {
@@ -28,9 +28,9 @@ class PolicyTest extends TestCase {
    * @expectedException Deefour\Aide\Authorization\NotDefinedException
    */
   public function testPolicyScopeOrFail() {
-    $this->assertEquals('scoped', Policy::policyScopeOrFail(new TestUser, new TestArticle));
+    $this->assertEquals('scoped', Policy::scopeOrFail(new TestUser, new TestArticle));
 
-    Policy::policyScopeOrFail(new TestUser, new TestDummy);
+    Policy::scopeOrFail(new TestUser, new TestDummy);
   }
 
   /**
@@ -46,6 +46,17 @@ class PolicyTest extends TestCase {
     $policy = new Policy(new TestUser);
 
     $this->assertInstanceOf('TestArticlePolicy', $policy->policy(new TestArticle));
+  }
+
+  /**
+   * @expectedException \InvalidArgumentException
+   */
+  public function testInstanceAuthorize() {
+    $policy = new Policy(new TestUser);
+
+    $this->assertTrue($policy->authorize(new TestArticle, 'edit'));
+
+    $this->assertTrue($policy->authorize(new TestArticle));
   }
 
   /**

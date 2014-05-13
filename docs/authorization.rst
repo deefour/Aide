@@ -69,7 +69,12 @@ Now, for some `ArticleController`, to authorize the current user against the abi
       return View::make('articles.edit'); // display the form
     }
 
-The `$this->authorize($article);` line will generate a fresh `ArticlePolicy` instance through Aide, passing the current user and the fetched `$article` into it. The `ArticlePolicy::edit()` method will be called, and if `false` is returned, a :class:`Deefour\Aide\Authorization\NotAuthorizedException` will be thrown. This exception can be caught by Laravel with the following in `app/start/global.php`.
+The `$this->authorize($article);` line will generate a fresh `ArticlePolicy` instance through Aide, passing the current user and the fetched `$article` into it. The `ArticlePolicy::edit()` method will be called, and if the user is authorized to edit the article, the view for the action will render as expected.
+
+Handling Unauthorized Exceptions
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+If `false` is returned by the `authorize()` call, a :class:`Deefour\Aide\Authorization\NotAuthorizedException` will be thrown. This exception can be caught by Laravel with the following in `app/start/global.php`.
 
 .. code-block:: php
 
@@ -104,10 +109,64 @@ There is a similar method to ensure a scope is used, which is particularly usefu
       }, [ 'only' => 'index' ]);
     }
 
-Instantiation Without Trait Methods
------------------------------------
+Policy/Scope Instantiation Without Trait Methods
+------------------------------------------------
 
+Policies and scopes can easily be retrieved using static or instance methods on the :class:`Deefour\Aide\Authorization\Policy` class.
 
+Static Instantiation
+^^^^^^^^^^^^^^^^^^^^
+
+The following methods are statically exposed:
+
+ - `Policy::policy()`
+ - `Policy::policyOrFail()`
+ - `Policy::scope()`
+ - `Policy::scopeOrFail()`
+
+For example:
+
+.. code-block:: php
+
+  use Deefour\Aide\Authorization\Policy;
+
+  $user    = User::find(1);
+  $article = $user->articles()->first();
+
+  Policy::policy($user, $article);
+  Policy::policyOrFail($user, $article);
+
+  Policy::scope($user, new Article);
+  Policy::scopeOrFail($user, new Article);
+
+The `...OrFail` version of each method will throw a :class:`Deefour\Aide\Authorization\NotDefinedException` exception if the policy class Aide tries to instantiate doesn't exist.
+
+Instance Instantiation
+^^^^^^^^^^^^^^^^^^^^^^
+
+A limited version of the above API is available when creating an instance of the `Policy` class.
+
+ - `Policy::policy()`
+ - `Policy::scope()`
+ - `Policy::authorize()`
+
+.. code-block:: php
+
+  use Deefour\Aide\Authorization\Policy;
+
+  $user    = User::find(1);
+  $article = $user->articles()->first();
+  $policy  = new Policy($user);
+
+  $policy->policy($article);
+
+  $policy->scope($article);
+
+  $policy->authorize($article, 'edit');
+
+.. note:: The authorize method in this case **requires** an action/method be passed as the second argument.
+
+The `policy()` and `scope()` methods are pass-through's to the `...OrFail()` methods on the `PolicyTrait`; exceptions will be thrown if a policy or scope cannot be found.
 
 Manually Specifying Policy Classes
 ----------------------------------
@@ -116,51 +175,75 @@ The policy class Aide tries to instantiate for an object can be overridden. Give
 
 .. code-block:: php
 
-  use Deefour\Aide\Authorization\Policy;
+    use Deefour\Aide\Authorization\Policy;
 
-  class ArticlePolicy {}
+    class ArticlePolicy {}
 
-  class Article { }
-  class NewsArticle extends Article { }
+    class Article { }
+    class NewsArticle extends Article { }
 
-  Policy::policyOrFail(new Article);     // returns fresh ArticlePolicy instance
-  Policy::policyOrFail(new NewsArticle); // throws Deefour\Aide\Authorization\NotDefinedException
+    Policy::policyOrFail(new Article);     // returns fresh ArticlePolicy instance
+    Policy::policyOrFail(new NewsArticle); // throws Deefour\Aide\Authorization\NotDefinedException
 
 Aide can be instructed to instantiate an :class:`ArticlePolicy` class for the :class:`NewsArticle` through a `policyClass()` method on :class:`Article` *(since :class:`NewsArticle` extends it)*.
 
 .. code-block:: php
 
-  use Deefour\Aide\Authorization\Policy;
+    use Deefour\Aide\Authorization\Policy;
 
-  class ArticlePolicy {}
+    class ArticlePolicy {}
 
-  class Article {
+    class Article {
 
-    public function policyClass() {
-      return 'ArticlePolicy';
+      public function policyClass() {
+        return 'ArticlePolicy';
+      }
+
     }
+    class NewsArticle extends Article { }
 
-  }
-  class NewsArticle extends Article { }
-
-  Policy::policyOrFail(new Article);     // returns fresh ArticlePolicy instance
-  Policy::policyOrFail(new NewsArticle); // returns fresh ArticlePolicy instance
+    Policy::policyOrFail(new Article);     // returns fresh ArticlePolicy instance
+    Policy::policyOrFail(new NewsArticle); // returns fresh ArticlePolicy instance
 
 Similarly, if a `name()` method is provided on the object, the string returned will be used as the class prefix for the policy class Aide tries to instantiate.
 
 .. code-block:: php
 
-  use Deefour\Aide\Authorization\Policy;
+    use Deefour\Aide\Authorization\Policy;
 
-  class PostPolicy {}
+    class PostPolicy {}
 
-  class Article {
+    class Article {
 
-    public function name() {
-      return 'Post';
+      public function name() {
+        return 'Post';
+      }
+
     }
 
-  }
+    Policy::policyOrFail(new Article); // returns fresh PostPolicy instance
 
-  Policy::policyOrFail(new Article); // returns fresh PostPolicy instance
+Closed System
+-------------
+
+Many apps only allow authenticated users to perform most actions. Instead of verifying on every policy action that the current user is not `null`, unpersisted in the database, or similarly not a legitimately authenticated user, this can be done through a special :class:`ApplicationPolicy` that your other policy classes extend.
+
+.. code-block:: php
+
+    use Deefour\Aide\Authorization\AbstractPolicy;
+    use Deefour\Aide\Authorization\NotAuthorizedException;
+
+    class ApplicationPolicy extends AbstractPolicy {
+
+      public function __construct($user, $record) {
+        if (is_null($user) or ! $user->exists) {
+          throw new NotAuthorizedException;
+        }
+
+        parent::__construct($user, $record);
+      }
+
+    }
+
+    class ArticlePolicy extends ApplicationPolicy { }
 

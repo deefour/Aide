@@ -49,12 +49,12 @@ class Finder {
       $klass = $this->object->policyClass();
     } else {
       if (method_exists($this->object, 'name')) {
-        $klassPrefix = $this->object->name();
+        $classPrefix = $this->object->name();
       } else {
-        $klassPrefix = get_class($this->object);
+        $classPrefix = get_class($this->object);
       }
 
-      $klass = $klassPrefix . ucfirst($type);
+      $klass = $classPrefix . ucfirst($type);
     }
 
     return $klass;

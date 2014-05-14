@@ -6,7 +6,7 @@ Aide provides a lightweight, object-oriented authorization system based heavily 
 Policies
 --------
 
-At the core of Aide's authorization is the notion of policy classes. Policy classes must extend :class:`Deefour\Aide\Authorization\AbstractPolicy`. Each method should return a boolean. For example
+At the core of Aide's authorization is the notion of policy classes. Policy classes must extend :class:`Deefour\\Aide\\Authorization\\AbstractPolicy`. Each method should return a boolean. For example
 
 .. code-block:: php
 
@@ -20,7 +20,7 @@ At the core of Aide's authorization is the notion of policy classes. Policy clas
 
     }
 
-When a policy class is instantiated through Aide, a `$record` to authorize is passed along with a `$user` to authorize against. Using the helper methods provided in :class:`Deefour\Aide\Authorization\PolicyTrait` is optional; you could instantiate a policy and check authorization for the `$user` yourself
+When a policy class is instantiated through Aide, a `$record` to authorize is passed along with a `$user` to authorize against. Using the helper methods provided in :class:`Deefour\\Aide\\Authorization\\PolicyTrait` is optional; you could instantiate a policy and check authorization for the `$user` yourself
 
 .. code-block:: php
 
@@ -37,7 +37,7 @@ Assumptions
 When generating a policy class for an object via Aide's helpers, the following assumptions are made.
 
  1. The policy class has the same name as the object being authorized, suffixed with `"Policy"` *(though this can be overridden)*
- 2. The first argument is the user to authorize for the action. When using Aide's helpers, this requires you create a `currentUser` method on the class using :class:`Deefour\Aide\Authorization\PolicyTrait`.
+ 2. The first argument is the user to authorize for the action. When using Aide's helpers, this requires you create a `currentUser` method on the class using :class:`Deefour\\Aide\\Authorization\\PolicyTrait`.
  3. The second argument is the object you wish to check the authorization against.
 
 An Example
@@ -74,7 +74,7 @@ The `$this->authorize($article);` line will generate a fresh `ArticlePolicy` ins
 Handling Unauthorized Exceptions
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-If `false` is returned by the `authorize()` call, a :class:`Deefour\Aide\Authorization\NotAuthorizedException` will be thrown. This exception can be caught by Laravel with the following in `app/start/global.php`.
+If `false` is returned by the `authorize()` call, a :class:`Deefour\\Aide\\Authorization\\NotAuthorizedException` will be thrown. This exception can be caught by Laravel with the following in `app/start/global.php`.
 
 .. code-block:: php
 
@@ -84,7 +84,7 @@ If `false` is returned by the `authorize()` call, a :class:`Deefour\Aide\Authori
       // Handle the exception...
     });
 
-.. note:: There is nothing Laravel-specific about Aide's authorization component. The :class:`Deefour\Aide\Authorization\PolicyTrait` trait can be used in any class.
+.. note:: There is nothing Laravel-specific about Aide's authorization component. The :class:`Deefour\\Aide\\Authorization\\PolicyTrait` trait can be used in any class.
 
 Ensuring Policies Are Used
 --------------------------
@@ -112,7 +112,7 @@ There is a similar method to ensure a scope is used, which is particularly usefu
 Policy/Scope Instantiation Without Trait Methods
 ------------------------------------------------
 
-Policies and scopes can easily be retrieved using static or instance methods on the :class:`Deefour\Aide\Authorization\Policy` class.
+Policies and scopes can easily be retrieved using static or instance methods on the :class:`Deefour\\Aide\\Authorization\\Policy` class.
 
 Static Instantiation
 ^^^^^^^^^^^^^^^^^^^^
@@ -139,7 +139,7 @@ For example:
   Policy::scope($user, new Article);
   Policy::scopeOrFail($user, new Article);
 
-The `...OrFail` version of each method will throw a :class:`Deefour\Aide\Authorization\NotDefinedException` exception if the policy class Aide tries to instantiate doesn't exist.
+The `...OrFail` version of each method will throw a :class:`Deefour\\Aide\\Authorization\\NotDefinedException` exception if the policy class Aide tries to instantiate doesn't exist.
 
 Instance Instantiation
 ^^^^^^^^^^^^^^^^^^^^^^

@@ -40,8 +40,47 @@ When generating a policy class for an object via Aide's helpers, the following a
  2. The first argument is the user to authorize for the action. When using Aide's helpers, this requires you create a `currentUser` method on the class using :class:`Deefour\\Aide\\Authorization\\PolicyTrait`.
  3. The second argument is the object you wish to check the authorization against.
 
-An Example
-----------
+Scopes
+------
+
+Aide's authorization also provides support for policy scopes. A policy scope will generate an iterable collection of objects the current user is able to see or work with. For example
+
+.. code-block:: php
+
+    use Deefour\Aide\Authorization\AbstractScope;
+
+    class ArticleScope extends AbstractScope {
+
+      public function resolve() {
+         if ($this->user->isAdmin()) {
+           return $this->scope->all();
+         } else {
+           return $this->scope->where('published', true)->get();
+         }
+      }
+
+    }
+
+When a policy scope is instantiated through Aide, the current `$user` and a `$scope` object are passed into the derived policy scope. By default, the policy scope is determined based on the name of the `$scope` object.
+
+.. code-block:: php
+
+    $user        = User::find(1);
+    $policyScope = new ArticleScope($user, Article::newQuery());
+
+    $articles    = $policyScope->resolve(); // collection of Articles
+
+Assumptions
+^^^^^^^^^^^
+
+When generating a policy scope via Aide's helpers, the following assumptions are made.
+
+ 1. The policy scope has the same name as the object being authorized, suffixed with `"Scope"` *(though this can be overridden)*
+ 2. The first argument is the user to filter the scope for. When using Aide's helpers, this requires you create a `currentUser` method on the class using :class:`Deefour\\Aide\\Authorization\\PolicyTrait`.
+ 3. The second argument is the scope object you wish to modify based on the state/details of the `$user`.
+
+A Policy Example
+----------------
 
 Using Laravel, the following could be added to the `BaseController`.
 
@@ -70,6 +109,35 @@ Now, for some `ArticleController`, to authorize the current user against the abi
     }
 
 The `$this->authorize($article);` line will generate a fresh `ArticlePolicy` instance through Aide, passing the current user and the fetched `$article` into it. The `ArticlePolicy::edit()` method will be called, and if the user is authorized to edit the article, the view for the action will render as expected.
+
+Facade for Laravel
+------------------
+
+In Laravel's `app/config/app.php` file, a new alias for the class:`Deefour\\Aide\\Authorization\\Policy` class can be added
+
+.. code-block:: php
+
+    'aliases' => array(
+
+       // ...
+
+       'Policy' => 'Deefour\Aide\Authorization\PolicyFacade',
+
+    ),
+
+    // ...
+
+This prevents the need for the `use Deefour\Aide\Authorization\Policy` statement in every file throughout the application, and makes interacting with policies and scopes within views easy.
+
+For example, to conditionally show an 'Edit' link for a specific `$article` based on the current user's ability to edit that article, the following could be used in a view
+
+.. code-block:: php
+
+    @if (Policy::policy($article)->edit())
+      <a href="{{ URL::route('articles.edit', [ 'id' => $article->id ]) }}">Edit</a>
+    @endif
+
+.. note:: The facade takes care of finding the current user and injecting it into the derived policy. There is no need to pass the current user into the facade methods.
 
 Handling Unauthorized Exceptions
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

@@ -22,7 +22,7 @@ class IlluminateValidator extends AbstractValidator implements ValidatorInterfac
    * {@inheritdoc}
    */
   public function isValid() {
-    $data                    = $this->entity->getAttributes();
+    $data                    = $this->entity->attributesToArray();
     list($rules, $callbacks) = $this->parseValidations();
     $validator               = $this->validator->make($data, $rules);
     $isValid                 = $validator->passes();

@@ -43,7 +43,9 @@ When generating a policy class for an object via Aide's helpers, the following a
 Scopes
 ------
 
-Aide's authorization also provides support for policy scopes. A policy scope will generate an iterable collection of objects the current user is able to see or work with. For example
+Aide also provides support for policy scopes. A policy scope will typically generate an iterable collection of objects the current user is able to access
+
+For example, the scope against the `Article` model below will return a collection of only **published** articles unless the current user is an administrator, in which case a collection of **all** articles will be returned.
 
 .. code-block:: php
 
@@ -79,8 +81,8 @@ When generating a policy scope via Aide's helpers, the following assumptions are
  2. The first argument is the user to filter the scope for. When using Aide's helpers, this requires you create a `currentUser` method on the class using :class:`Deefour\\Aide\\Authorization\\PolicyTrait`.
  3. The second argument is the scope object you wish to modify based on the state/details of the `$user`.
 
-A Policy Example
-----------------
+An Example in the Context of an Application
+-------------------------------------------
 
 Using Laravel, the following could be added to the `BaseController`.
 
@@ -113,7 +115,21 @@ The `$this->authorize($article);` line will generate a fresh `ArticlePolicy` ins
 Facade for Laravel
 ------------------
 
-In Laravel's `app/config/app.php` file, a new alias for the class:`Deefour\\Aide\\Authorization\\Policy` class can be added
+In Laravel's `app/config/app.php` file, add the class:`Deefour\\Aide\\Authorization\\PolicyServiceProvider` class to the list of providers
+
+.. code-block:: php
+
+    'providers' => array(
+
+       // ...
+
+       'Deefour\Aide\Support\Facades\PolicyServiceProvider',
+
+    ),
+
+    // ...
+
+Also, add a new alias for the facade associated with the class:`Deefour\\Aide\\Authorization\\Policy` class
 
 .. code-block:: php
 
@@ -121,7 +137,7 @@ In Laravel's `app/config/app.php` file, a new alias for the class:`Deefour\\Aide
 
        // ...
 
-       'Policy' => 'Deefour\Aide\Authorization\PolicyFacade',
+       'Policy' => 'Deefour\Aide\Support\Facades\Policy',
 
     ),
 
@@ -129,7 +145,7 @@ In Laravel's `app/config/app.php` file, a new alias for the class:`Deefour\\Aide
 
 This prevents the need for the `use Deefour\Aide\Authorization\Policy` statement in every file throughout the application, and makes interacting with policies and scopes within views easy.
 
-For example, to conditionally show an 'Edit' link for a specific `$article` based on the current user's ability to edit that article, the following could be used in a view
+For example, to conditionally show an 'Edit' link for a specific `$article` based on the current user's ability to edit that article, the following could be used in a blade template
 
 .. code-block:: php
 

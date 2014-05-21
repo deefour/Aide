@@ -21,6 +21,7 @@
     "require-dev": {
         "illuminate/database": "4.1.*",
         "illuminate/validation": "4.1.*",
+        "illuminate/support": "4.1.*",
         "silex/silex": "~1.2",
         "mockery/mockery": "0.9.*",
         "phpunit/phpunit": "4.0.*",

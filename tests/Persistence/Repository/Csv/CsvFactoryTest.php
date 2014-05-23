@@ -7,14 +7,14 @@ use Deefour\Aide\TestCase;
 class CsvFactoryTest extends TestCase {
 
   public function testStaticCreation() {
-    $repository = Factory::create(new \TestDummy);
+    $repository = Factory::make(new \TestDummy);
 
     $this->assertInstanceOf('\\Csv\\TestDummyRepository', $repository);
   }
 
   public function testInstanceCreation() {
     $factory    = new Factory;
-    $repository = $factory->create(new \TestDummy);
+    $repository = $factory->make(new \TestDummy);
 
     $this->assertInstanceOf('\\Csv\\TestDummyRepository', $repository);
   }
@@ -26,6 +26,6 @@ class CsvFactoryTest extends TestCase {
   public function testDerivedRepositoryException() {
     $factory = new Factory;
 
-    $factory->create(new \OrphanTestDummy);
+    $factory->make(new \OrphanTestDummy);
   }
 }

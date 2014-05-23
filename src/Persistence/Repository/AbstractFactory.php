@@ -27,13 +27,20 @@ abstract class AbstractFactory implements FactoryInterface {
   /**
    * {@inheritdoc}
    */
-  public function make(EntityInterface $entity, array $options = []) {
+  public static function make(EntityInterface $entity, array $options = []) {
+    return (new static)->create($entity, $options);
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function create(EntityInterface $entity, array $options = []) {
     $this->setOptions($options);
 
     $model      = $this->deriveModelName($entity);
     $repository = $this->deriveRepositoryName($entity);
 
-    return new $repository(new $model, $this->$options);
+    return new $repository(new $model, $this->options);
   }
 
   /**
@@ -42,7 +49,7 @@ abstract class AbstractFactory implements FactoryInterface {
    * @param  array  $options
    */
   public function setOptions(array $options) {
-    $this->$options = array_replace_recursive($this->$options, $options);
+    return $this->$options = array_replace_recursive($this->options, $options);
   }
 
 
@@ -71,7 +78,7 @@ abstract class AbstractFactory implements FactoryInterface {
    * @return string
    */
   protected function deriveModelName(EntityInterface $entity) {
-    $driver = $this->$driver;
+    $driver = $this->driver;
 
     if ($entity instanceof Model) {
       return get_class($entity);
@@ -103,7 +110,7 @@ abstract class AbstractFactory implements FactoryInterface {
     list($fullClassName, $namespace, $classBaseName) = array_pad($this->parseClassName($entity), 3, null);
 
     $repositoryName = null;
-    $driver         = $this->$driver;
+    $driver         = $this->driver;
     $className      = sprintf('%s\\%sRepository', $namespace, $classBaseName);
     $choices        = [
       $className,
@@ -123,6 +130,12 @@ abstract class AbstractFactory implements FactoryInterface {
     }
 
     return $repositoryName;
+  }
+
+  public static function __callStatic($method, array $parameters) {
+    $klass = new static;
+
+    return call_user_func_array($klass->$method, $paramters);
   }
 
 }

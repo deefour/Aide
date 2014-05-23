@@ -29,13 +29,11 @@ class Factory extends AbstractFactory {
   /**
    * {@inheritdoc}
    */
-  public function make(EntityInterface $entity, array $options = []) {
+  public static function make(EntityInterface $entity, array $options = []) {
     // Workaround to add default path option
     if ( ! array_key_exists('path', $options)) {
       $options['path'] = sys_get_temp_dir();
     }
-
-    $options = array_merge(static::$options, $options);
 
     return parent::make($entity, $options);
   }

@@ -11,6 +11,6 @@ class Factory extends AbstractFactory {
   /**
    * {@inheritdoc}
    */
-  protected static $driver = 'Eloquent';
+  protected $driver = 'Eloquent';
 
 }

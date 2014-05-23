@@ -22,7 +22,7 @@ class RepositoryServiceProvider extends ServiceProvider {
    * @return void
    */
   public function register() {
-    $this->app->bindShared('repository', function() {
+    $this->app->bindShared('aide.repository', function() {
       return new Factory(
         $this->app['config']->get('repository.csv')
       );
@@ -35,7 +35,7 @@ class RepositoryServiceProvider extends ServiceProvider {
    * @return array
    */
   public function provides() {
-    return [ 'repository' ];
+    return [ 'aide.repository' ];
   }
 
 }

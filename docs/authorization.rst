@@ -112,8 +112,13 @@ Now, for some `ArticleController`, to authorize the current user against the abi
 
 The `$this->authorize($article);` line will generate a fresh `ArticlePolicy` instance through Aide, passing the current user and the fetched `$article` into it. The `ArticlePolicy::edit()` method will be called, and if the user is authorized to edit the article, the view for the action will render as expected.
 
-Facade for Laravel
-------------------
+Usage Within Laravel
+--------------------
+
+Aide provides a service provider and facade for the `Policy` class to make interacting with it very simple inside of a Laravel application.
+
+Service Provider
+^^^^^^^^^^^^^^^^
 
 In Laravel's `app/config/app.php` file, add the class:`Deefour\\Aide\\Authorization\\PolicyServiceProvider` class to the list of providers
 
@@ -129,7 +134,62 @@ In Laravel's `app/config/app.php` file, add the class:`Deefour\\Aide\\Authorizat
 
     // ...
 
-Also, add a new alias for the facade associated with the class:`Deefour\\Aide\\Authorization\\Policy` class
+
+The IoC container is responsible for instantiating a single, shared instance of the class:`Deefour\\Aide\\Authorization\\Policy` class. This is done outside the scope of a controller method, meaning the IoC container has no access to or knowledge of the  `currentUser` method that may exist within a base controller. Further, the API provided by the `Policy` facade does not expect a user to be passed. This means instead of calling
+
+.. code-block:: php
+
+    $app['policy']->policy(Auth::user(), new Article);
+
+the following is actually correct
+
+.. code-block:: php
+
+    $app['policy']->policy(new Article);
+
+To accomplish this, the service provider looks for configuration in an `app/config/policy.php` file. At a minimum, the following is required when using the policy service provider.
+
+.. code-block:: php
+
+    <?php
+
+    return array(
+
+      'user' => function() {
+
+        return Auth::user() ?: new User; // this logic can be replaced with anything you like.
+
+      },
+
+    );
+
+To keep things DRY, the `currentUser` method in the base controller could be modified to take advantage of this same Closure.
+
+.. code-block:: php
+
+    public function currentUser() {
+      return call_user_func(Config::get('policy.user'));
+    }
+
+Policy Facade
+^^^^^^^^^^^^^
+
+With the service provider in place, the instantiated policy class can be accessed via the main application container.
+
+.. code-block:: php
+
+    $articlePolicy = $app['policy']->policy(new Article);
+
+Remember, you can also instantiate the policy provider yourself.
+
+.. code-block:: php
+
+    use Deefour\Aide\Authorization\Policy;
+
+    $policyProvider = new Policy(Auth::user());
+    $articlePolicy  = $policyProvider->policy(new Article);
+
+This can be simplified through the use of a `Policy` facade. Add the following to `app/config/app.php`
 
 .. code-block:: php
 
@@ -143,17 +203,22 @@ Also, add a new alias for the facade associated with the class:`Deefour\\Aide\\A
 
     // ...
 
-This prevents the need for the `use Deefour\Aide\Authorization\Policy` statement in every file throughout the application, and makes interacting with policies and scopes within views easy.
+The same functionality above is now as simple as this
 
-For example, to conditionally show an 'Edit' link for a specific `$article` based on the current user's ability to edit that article, the following could be used in a blade template
+.. code-block:: php
+
+    $articlePolicy = Policy::policy(new Article);
+
+Policies in Views
+^^^^^^^^^^^^^^^^^
+
+The facade makes working with policies in views simple too. For example, to conditionally show an 'Edit' link for a specific `$article` based on the current user's ability to edit that article, the following could be used in a blade template
 
 .. code-block:: php
 
     @if (Policy::policy($article)->edit())
       <a href="{{ URL::route('articles.edit', [ 'id' => $article->id ]) }}">Edit</a>
     @endif
-
-.. note:: The facade takes care of finding the current user and injecting it into the derived policy. There is no need to pass the current user into the facade methods.
 
 Handling Unauthorized Exceptions
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -179,7 +244,7 @@ Again using Laravel as an example, an after filter can be configured to prevent 
 
     public function __construct() {
       $this->afterFilter(function() {
-        $this->requireAuthorization();
+        $this->verifyAuthorized();
       }, [ 'except' => 'index' ]);
     }
 

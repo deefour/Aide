@@ -14,6 +14,6 @@ class Policy extends Facade {
    *
    * @return string
    */
-  protected static function getFacadeAccessor() { return 'policy'; }
+  protected static function getFacadeAccessor() { return 'aide.policy'; }
 
 }

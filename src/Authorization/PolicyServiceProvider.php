@@ -21,7 +21,7 @@ class PolicyServiceProvider extends ServiceProvider {
    * @return void
    */
   public function register() {
-    $this->app->bindShared('policy', function() {
+    $this->app->bindShared('aide.policy', function() {
       return new Policy($this->app['config']->get('policy'));
     });
   }
@@ -32,7 +32,7 @@ class PolicyServiceProvider extends ServiceProvider {
    * @return array
    */
   public function provides() {
-    return [ 'policy' ];
+    return [ 'aide.policy' ];
   }
 
 }

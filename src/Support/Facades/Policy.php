@@ -1,4 +1,4 @@
-<?php namespace Deefour\Support\Facades;
+<?php namespace Deefour\Aide\Support\Facades;
 
 use Illuminate\Support\Facades\Facade;
 

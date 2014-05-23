@@ -1,11 +1,12 @@
-<?php namespace Deefour\Aide\Persistence\Repository\Factory;
+<?php namespace Deefour\Aide\Persistence\Repository\Eloquent;
 
+use Deefour\Aide\Persistence\Repository\AbstractFactory;
 use \Deefour\Aide\Persistence\Entity\EntityInterface;
 use \Deefour\Aide\Persistence\Model\Eloquent\Model;
 
 
 
-class EloquentFactory extends AbstractFactory {
+class Factory extends AbstractFactory {
 
   /**
    * {@inheritdoc}

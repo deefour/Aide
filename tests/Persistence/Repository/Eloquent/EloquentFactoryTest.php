@@ -1,4 +1,4 @@
-<?php namespace Deefour\Aide\Persistence\Repository\Factory;
+<?php namespace Deefour\Aide\Persistence\Repository\Eloquent;
 
 use Deefour\Aide\TestCase;
 
@@ -7,20 +7,20 @@ use Deefour\Aide\TestCase;
 class EloquentFactoryTest extends TestCase {
 
   public function testStaticCreation() {
-    $repository = EloquentFactory::create(new \TestDummy);
+    $repository = Factory::create(new \TestDummy);
 
     $this->assertInstanceOf('\\Eloquent\\TestDummyRepository', $repository);
   }
 
   public function testInstanceCreation() {
-    $factory    = new EloquentFactory;
+    $factory    = new Factory;
     $repository = $factory->create(new \TestDummy);
 
     $this->assertInstanceOf('\\Eloquent\\TestDummyRepository', $repository);
   }
 
   public function testCreationFromModel() {
-    $factory    = new EloquentFactory;
+    $factory    = new Factory;
     $repository = $factory->create(new \EntityModel);
 
     $this->assertInstanceOf('\\Eloquent\\EntityModelRepository', $repository);

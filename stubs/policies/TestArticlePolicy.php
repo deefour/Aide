@@ -14,4 +14,8 @@ class TestArticlePolicy extends AbstractPolicy {
     return false;
   }
 
+  public function permittedAttributes() {
+    return [ 'title' ];
+  }
+
 }

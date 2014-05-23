@@ -1,4 +1,4 @@
-<?php namespace Deefour\Aide\Persistence\Repository\Factory;
+<?php namespace Deefour\Aide\Persistence\Repository;
 
 use \Deefour\Aide\Persistence\Entity\EntityInterface;
 

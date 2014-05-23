@@ -8,16 +8,37 @@ class Policy {
 
   protected $user;
 
+  protected $options;
+
   private $publicApi = [ 'authorize', 'policy', 'scope' ];
 
 
 
-  public function __construct($user) {
-    $this->user = $user;
+  public function __construct($user = null, array $options = []) {
+    $this->user    = $user;
+    $this->options = $options;
   }
 
+  public function make($record) {
+    return static::getPolicy($this->currentUser(), $record);
+  }
+
+
+
   protected function currentUser() {
-    return $this->user;
+    if ($this->user) {
+      return $this->user;
+    }
+
+    if ( ! array_key_exists('user', $this->options)) {
+      throw new \InvalidArgumentException('No `$user` or callable `user` option has been set on the `Policy` class');
+    }
+
+    if ( ! is_callable($this->options['user'])) {
+      return $this->options['user'];
+    }
+
+    return call_user_func($this->options['user']);
   }
 
 

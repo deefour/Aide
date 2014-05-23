@@ -1,12 +1,14 @@
-<?php namespace Deefour\Aide\Persistence\Repository;
+<?php namespace Deefour\Aide\Persistence\Repository\Eloquent;
 
+use Deefour\Aide\Persistence\Repository\AbstractRepository;
+use Deefour\Aide\Persistence\Repository\RepositoryInterface;
 use Deefour\Aide\Persistence\Model\ModelInterface;
 use Deefour\Aide\Persistence\Entity\EntityInterface;
 use \Deefour\Aide\Persistence\Model\Eloquent\Model;
 
 
 
-abstract class EloquentRepository extends AbstractRepository implements RepositoryInterface {
+abstract class Repository extends AbstractRepository implements RepositoryInterface {
 
   public function __construct(Model $model, array $options = []) {
     parent::__construct($model, $options);

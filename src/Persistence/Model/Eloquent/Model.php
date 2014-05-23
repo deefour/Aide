@@ -17,6 +17,14 @@ abstract class Model extends Eloquent implements ModelInterface, ValidatableInte
    */
   protected $messageTemplates = [];
 
+  /**
+   * Keep the mass assignment protection out of the model layer. Instead, expect
+   * the developer to protect from mass assignment from within the controller.
+   *
+   * {@inheritdoc}
+   */
+  protected $guarded = [];
+
 
 
   /**
@@ -119,7 +127,7 @@ abstract class Model extends Eloquent implements ModelInterface, ValidatableInte
    * on the inheriting class
    */
   public function validations(array $context = []) {
-    throw new \BadMethodCallException('A `validations` method has not been defined for this classs');
+    throw new \BadMethodCallException('A `validations` method has not been defined for this class');
   }
 
   /**

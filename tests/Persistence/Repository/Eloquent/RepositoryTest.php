@@ -1,4 +1,4 @@
-<?php namespace Deefour\Aide\Persistence\Repository;
+<?php namespace Deefour\Aide\Persistence\Repository\Eloquent;
 
 use Deefour\Aide\TestCase;
 use Eloquent\TestDummy;
@@ -7,7 +7,7 @@ use Mockery as m;
 
 
 
-class EloquentRepositoryTest extends TestCase {
+class RepositoryTest extends TestCase {
 
   protected $repository;
 

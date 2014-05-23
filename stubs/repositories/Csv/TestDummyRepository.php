@@ -1,7 +1,7 @@
 <?php namespace Csv;
 
-use Deefour\Aide\Persistence\Repository\CsvRepository;
+use Deefour\Aide\Persistence\Repository\Csv\Repository;
 
-class TestDummyRepository extends CsvRepository {
+class TestDummyRepository extends Repository {
 
 }

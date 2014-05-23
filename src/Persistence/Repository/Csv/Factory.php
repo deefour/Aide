@@ -1,10 +1,11 @@
-<?php namespace Deefour\Aide\Persistence\Repository\Factory;
+<?php namespace Deefour\Aide\Persistence\Repository\Csv;
 
+use Deefour\Aide\Persistence\Repository\AbstractFactory;
 use Deefour\Aide\Persistence\Entity\EntityInterface;
 
 
 
-class CsvFactory extends AbstractFactory {
+class Factory extends AbstractFactory {
 
   /**
    * {@inheritdoc}

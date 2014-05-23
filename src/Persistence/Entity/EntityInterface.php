@@ -35,11 +35,20 @@ interface EntityInterface {
 
   /**
    * Converts the entities list of attributes (public properties) into an easily-
-   * consumable set of key/value pairs.
+   * consumable set of key/value pairs. This includes relations if they are supported
+   * by the storage driver.
    *
    * @return array
    */
   public function toArray();
+
+  /**
+   * Converts the entities list of attributes (public properties) into an easily-
+   * consumable set of key/value pairs. This does not include any relations.
+   *
+   * @return array
+   */
+  public function attributesToArray();
 
   /**
    * Clears any previously set values on all attributes for the entity.

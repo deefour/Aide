@@ -15,13 +15,13 @@ class RepositoryServiceProvider implements ServiceProviderInterface {
   public function register(Application $app) {
     $app['repository_factory'] = $app->share(function($app) {
       if ($app['repository.options']['engine'] === 'csv') {
-        $factory = new \Deefour\Aide\Persistence\Repository\Factory\CsvFactory;
+        $factory = new \Deefour\Aide\Persistence\Repository\Factory\Csv\Factory;
 
         $factory->setOptions($app['repository.options']['csv']);
 
         return $factory;
       } else {
-        return new \Deefour\Aide\Persistence\Repository\Factory\EloquentFactory;
+        return new \Deefour\Aide\Persistence\Repository\Factory\Eloquent\Factory;
       }
     });
   }

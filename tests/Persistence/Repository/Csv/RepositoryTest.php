@@ -1,4 +1,4 @@
-<?php namespace Deefour\Aide\Persistence\Repository;
+<?php namespace Deefour\Aide\Persistence\Repository\Csv;
 
 use Deefour\Aide\TestCase;
 use Csv\TestArticle;
@@ -6,7 +6,7 @@ use Csv\TestArticleRepository;
 
 
 
-class CsvRepositoryTest extends TestCase {
+class RepositoryTest extends TestCase {
 
   protected $repository;
 

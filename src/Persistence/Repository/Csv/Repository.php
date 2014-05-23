@@ -1,12 +1,14 @@
-<?php namespace Deefour\Aide\Persistence\Repository;
+<?php namespace Deefour\Aide\Persistence\Repository\Csv;
 
+use Deefour\Aide\Persistence\Repository\AbstractRepository;
+use Deefour\Aide\Persistence\Repository\RepositoryInterface;
 use Deefour\Aide\Persistence\Model\ModelInterface;
 use Deefour\Aide\Persistence\Entity\EntityInterface;
 use Deefour\Aide\Persistence\Model\Csv\Model;
 
 
 
-abstract class CsvRepository extends AbstractRepository implements RepositoryInterface {
+abstract class Repository extends AbstractRepository implements RepositoryInterface {
 
   /**
    * The full path and filename of the storage for models passing through this

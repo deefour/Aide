@@ -331,3 +331,40 @@ Many apps only allow authenticated users to perform most actions. Instead of ver
 
     class ArticlePolicy extends ApplicationPolicy { }
 
+Mass Assignment Protection
+--------------------------
+
+A special `permittedAttributes` method can be created on a policy to conditionally provide a whitelist of attributes for a given request by a user to create or modify a record.
+
+.. code-block:: php
+
+    use Deefour\Aide\Authorization\AbstractPolicy;
+
+    class ArticlePolicy extends AbstractPolicy {
+
+      public function permittedAttributes() {
+        $attributes = [ 'title', 'body', ];
+
+        // prevent the author and slug from being modified after the article
+        // has been persisted to the database.
+        if ( ! $this->record->exists) {
+          return array_merge($attributes, [ 'user_id', 'slug', ]);
+        }
+
+        return $attributes;
+      }
+
+    }
+
+This policy method can be used within a controller to filter unauthorized attributes from being set on a model via mass assignment. Again, in a Laravel controller action *(`Repository` below comes from a facade provided by Aide for Laravel)*
+
+.. code-block:: php
+
+    $article    = Article::find(1);
+    $repository = Repository::make($article);
+    $policy     = Policy::make($article);
+
+    $repository->update(
+      $policy->permittedAttributes(Input::get('article'))
+    );
+

@@ -1,10 +1,11 @@
-<?php namespace Deefour\Aide\Authorization;
+<?php namespace Deefour\Aide\Persistence\Repository\Csv;
 
 use Illuminate\Support\ServiceProvider;
+use Deefour\Aide\Persistence\Repository\Factory\Csv\Factory;
 
 
 
-class PolicyServiceProvider extends ServiceProvider {
+class RepositoryServiceProvider extends ServiceProvider {
 
   /**
    * Indicates if loading of the provider is deferred.
@@ -21,8 +22,10 @@ class PolicyServiceProvider extends ServiceProvider {
    * @return void
    */
   public function register() {
-    $this->app->bindShared('policy', function() {
-      return new Policy($this->app['config']->get('policy'));
+    $this->app->bindShared('repository', function() {
+      return new Factory(
+        $this->app['config']->get('repository.csv')
+      );
     });
   }
 
@@ -32,7 +35,7 @@ class PolicyServiceProvider extends ServiceProvider {
    * @return array
    */
   public function provides() {
-    return [ 'policy' ];
+    return [ 'repository' ];
   }
 
 }

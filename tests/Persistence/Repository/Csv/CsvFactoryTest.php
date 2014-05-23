@@ -1,4 +1,4 @@
-<?php namespace Deefour\Aide\Persistence\Repository\Factory;
+<?php namespace Deefour\Aide\Persistence\Repository\Csv;
 
 use Deefour\Aide\TestCase;
 
@@ -7,13 +7,13 @@ use Deefour\Aide\TestCase;
 class CsvFactoryTest extends TestCase {
 
   public function testStaticCreation() {
-    $repository = CsvFactory::create(new \TestDummy);
+    $repository = Factory::create(new \TestDummy);
 
     $this->assertInstanceOf('\\Csv\\TestDummyRepository', $repository);
   }
 
   public function testInstanceCreation() {
-    $factory    = new CsvFactory;
+    $factory    = new Factory;
     $repository = $factory->create(new \TestDummy);
 
     $this->assertInstanceOf('\\Csv\\TestDummyRepository', $repository);
@@ -24,7 +24,7 @@ class CsvFactoryTest extends TestCase {
    * @expectedExceptionMessage could not derive
    */
   public function testDerivedRepositoryException() {
-    $factory = new CsvFactory;
+    $factory = new Factory;
 
     $factory->create(new \OrphanTestDummy);
   }

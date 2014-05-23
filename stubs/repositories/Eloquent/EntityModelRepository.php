@@ -1,5 +1,5 @@
 <?php namespace Eloquent;
 
-use Deefour\Aide\Persistence\Repository\EloquentRepository;
+use Deefour\Aide\Persistence\Repository\Eloquent\Repository;
 
-class EntityModelRepository extends EloquentRepository { }
+class EntityModelRepository extends Repository { }

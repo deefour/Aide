@@ -34,4 +34,13 @@ abstract class AbstractPolicy {
     $this->record = $record;
   }
 
+  /**
+   * Protects mass-assignment of unauthorized/unwanted attributes
+   *
+   * @return array
+   */
+  public function permittedAttributes() {
+    throw new \BadMethodCallException('A `permittedAttributes` method has not been defined for this class');
+  }
+
 }

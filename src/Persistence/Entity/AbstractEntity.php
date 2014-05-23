@@ -90,6 +90,13 @@ abstract class AbstractEntity implements EntityInterface, ValidatableInterface {
   /**
    * {@inheritdoc}
    */
+  public function attributesToArray() {
+    return $this->toArray();
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   public function getAttributes() {
     return $this->toArray();
   }

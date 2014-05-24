@@ -49,7 +49,7 @@ class PolicyTraitTest extends TestCase {
   }
 
   /**
-   * @expectedException Deefour\Aide\Authorization\AuthorizationNotPerformedException
+   * @expectedException Deefour\Aide\Authorization\ScopingNotPerformedException
    */
   public function testVerifyPolicyScopedException() {
     $this->controller->verifyPolicyScoped();

@@ -22,8 +22,14 @@ class PolicyServiceProvider extends ServiceProvider {
    */
   public function register() {
     $this->app->bindShared('aide.policy', function() {
-      $config = $this->app['config']->get('policy');
-      $user   = $config['user'];
+      $config = $this->app['config'];
+
+      if ( ! $config->has('policy.user')) {
+        throw new \LogicException('A \'policy.user\' must be defined in the application config.');
+      }
+
+      $user   = $config->get('policy.user');
+      $config = $config->get('policy');
 
       // The `user` option can be a Closure. If it is, get the return value
       if (is_callable($user)) {

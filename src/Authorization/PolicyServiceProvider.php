@@ -22,7 +22,7 @@ class PolicyServiceProvider extends ServiceProvider {
    */
   public function register() {
     $this->app->bindShared('aide.policy', function() {
-      $config = $this->app['config']->get('policy')
+      $config = $this->app['config']->get('policy');
       $user   = $config['user'];
 
       // The `user` option can be a Closure. If it is, get the return value

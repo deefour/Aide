@@ -34,7 +34,10 @@ abstract class AbstractScope {
   }
 
   /**
+   * Builds a scoped query based on the current `$user` and `$scope` passed into
+   * scope instance.
    *
+   * @return mixed
    */
   abstract public function resolve();
 

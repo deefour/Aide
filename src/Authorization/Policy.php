@@ -1,49 +1,105 @@
 <?php namespace Deefour\Aide\Authorization;
 
+/**
+ * Provides easy access to much of the functionality available in Aide's
+ * authorization component.
+ *
+ * With an instance, `make` can be called, passing in only the object to derive
+ * the policy or scope for.
+ *
+ *   $policyClass = new Policy(Auth::user());
+ *   $policyClass->make(new Article); //=>  ArticlePolicy
+ *
+ * Policy/scope lookups and authorization can also be performed against an
+ * instance using a select subset of methods found on the
+ * `Deefour\Aide\Authorization\PolicyTrait` class.
+ *
+ *   $policyClass->authorize(new Article, 'create'); //=> boolean
+ *   $policyClass->policy(new Article); //=> ArticlePolicy
+ *   $policyClass->scope(new Article);  //=> ArticleScope
+ *
+ * Alternatively, select methods are exposed statically
+ *
+ *   Policy::scope(new Article); //=> ArticlePolicy
+ *   Policy::policyOrFail(new ObjectWithoutPolicy); //=> NotDefinedException
+ */
 class Policy {
 
+  // pull in functionality from the PolicyTrait
   use PolicyTrait;
 
 
-
+  /**
+   * The current user
+   *
+   * @protected
+   * @var mixed
+   */
   protected $user;
 
+  /**
+   * Options to modify the context of the policy class
+   *
+   * @protected
+   * @var array
+   */
   protected $options;
 
-  private $publicApi = [ 'authorize', 'policy', 'scope' ];
+  /**
+   * List of methods on the trait to expose publicly
+   *
+   * @protected
+   * @var array
+   */
+  protected $publicApi = [ 'authorize', 'policy', 'scope' ];
 
 
 
-  public function __construct($user = null, array $options = []) {
+  /**
+   * Configure the policy class with the current user and context
+   *
+   * @param  mixed  $user
+   * @param  array  $options [optional]
+   */
+  public function __construct($user, array $options = []) {
     $this->user    = $user;
     $this->options = $options;
   }
 
+  /**
+   * Alias for the trait's policy method. Exists primarily for consistency with
+   * other Aide components, like the repository factory's make method to create
+   * new repository classes based on an entity.
+   *
+   * @param  mixed  $record
+   * @return  Deefour\Aide\Authorization\AbstractPolicy
+   */
   public function make($record) {
-    return static::getPolicy($this->currentUser(), $record);
+    return $this->policy($record);
   }
 
 
 
+  /**
+   * {@inheritdoc}
+   */
   protected function currentUser() {
-    if ($this->user) {
-      return $this->user;
-    }
-
-    if ( ! array_key_exists('user', $this->options)) {
-      throw new \InvalidArgumentException('No `$user` or callable `user` option has been set on the `Policy` class');
-    }
-
-    if ( ! is_callable($this->options['user'])) {
-      return $this->options['user'];
-    }
-
-    return call_user_func($this->options['user']);
+    return $this->user;
   }
 
 
 
-  public static function __callStatic($method, $parameters) {
+  /**
+   * Magic `__callStatic` method, providing access to accessor methods on the
+   * policy trait without the need to use the `get` prefix. For example,
+   *
+   *   Policy::scope(new Article); //=> ArticleScope
+   *
+   * @param  string  $method
+   * @param  array   $parameters
+   * @return mixed
+   */
+  public static function __callStatic($method, array $parameters) {
     $staticMethod = 'get' . ucfirst($method);
 
     if ( ! method_exists(get_class(), $staticMethod)) {
@@ -53,7 +109,15 @@ class Policy {
     return call_user_func_array('static::' . $staticMethod, $parameters);
   }
 
-  public function __call($method, $parameters) {
+  /**
+   * Magice `_call` method, providing access to a specific subset of protected
+   * methods defined on the policy trait
+   *
+   * @param  string  $method
+   * @param  array   $parameters
+   * @return mixed
+   */
+  public function __call($method, array $parameters) {
     if ( ! in_array($method, $this->publicApi)) {
       throw new \BadMethodCallException(sprintf('A `%s` method is not defined or exposed publicly on `%s`.', $method, get_class()));
     }

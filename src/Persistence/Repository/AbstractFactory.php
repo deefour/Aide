@@ -49,7 +49,7 @@ abstract class AbstractFactory implements FactoryInterface {
    * @param  array  $options
    */
   public function setOptions(array $options) {
-    return $this->$options = array_replace_recursive($this->options, $options);
+    return $this->options = array_replace_recursive($this->options, $options);
   }
 
 

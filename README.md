@@ -24,9 +24,14 @@ Documentation can be found on [**Read the Docs**](http://aide.readthedocs.org/en
 
 ## Changelog
 
+#### 0.5.0 - May 24, 2014
+
+ - Laravel service providers for `Repository` and `Policy` factories
+ - Updated documentation and phpdocs for authorization component
+
 #### 0.4.0 - May 13, 2014
 
- - New authorization component, based on the popular Ruby gem, [Pundit](https://github.com/elabs/pundit).
+ - New authorization component, based on the popular Ruby gem, [Pundit](https://github.com/elabs/pundit)
 
 #### 0.3.0 - May 11, 2014
 

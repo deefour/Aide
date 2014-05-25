@@ -1,4 +1,4 @@
-<?php namespace Deefour\Aide;
+<?php
 
 /**
  * Base class for all application tests allowing for customization of PHPUnit's

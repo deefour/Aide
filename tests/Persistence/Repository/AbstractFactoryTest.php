@@ -1,6 +1,6 @@
 <?php namespace Deefour\Aide\Persistence\Repository;
 
-use Deefour\Aide\TestCase;
+use TestCase;
 use Mockery as m;
 use TestDummy;
 

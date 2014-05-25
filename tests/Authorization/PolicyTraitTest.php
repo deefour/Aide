@@ -4,7 +4,7 @@ use TestUser;
 use TestArticle;
 use TestDummy;
 use AuthorizationController;
-use Deefour\Aide\TestCase;
+use TestCase;
 
 
 

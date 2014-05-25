@@ -38,7 +38,8 @@
           "stubs/models/",
           "stubs/policies/",
           "stubs/scopes/",
-          "stubs/controllers/"
+          "stubs/controllers/",
+          "tests/"
         ],
         "psr-4": {
             "Deefour\\Aide\\": "tests/"

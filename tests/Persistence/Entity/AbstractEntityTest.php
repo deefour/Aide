@@ -1,7 +1,7 @@
 <?php namespace Deefour\Aide\Persistence\Entity;
 
 use TestDummy;
-use Deefour\Aide\TestCase;
+use TestCase;
 
 class AbstractEntityTest extends TestCase {
 

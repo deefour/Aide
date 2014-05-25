@@ -1,6 +1,6 @@
 <?php namespace Deefour\Aide\Persistence\Repository\Csv;
 
-use Deefour\Aide\TestCase;
+use TestCase;
 
 
 

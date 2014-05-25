@@ -1,6 +1,6 @@
 <?php namespace Deefour\Aide\Persistence\Repository\Eloquent;
 
-use Deefour\Aide\TestCase;
+use TestCase;
 
 
 

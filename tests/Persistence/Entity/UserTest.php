@@ -1,6 +1,6 @@
 <?php namespace Deefour\Aide\Persistence\Entity;
 
-use Deefour\Aide\TestCase;
+use TestCase;
 
 class UserTest extends TestCase {
 

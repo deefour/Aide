@@ -3,7 +3,7 @@
 use TestArticle;
 use TestDummy;
 use TestUser;
-use Deefour\Aide\TestCase;
+use TestCase;
 
 
 

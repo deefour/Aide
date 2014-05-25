@@ -1,6 +1,6 @@
 <?php namespace Deefour\Aide\Persistence\Model\Eloquent;
 
-use Deefour\Aide\TestCase;
+use TestCase;
 use Eloquent\TestDummy;
 use Eloquent\TestDummyWithoutEntity;
 

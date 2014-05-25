@@ -1,6 +1,6 @@
 <?php namespace Deefour\Aide\Persistence\Model\Csv;
 
-use Deefour\Aide\TestCase;
+use TestCase;
 use Csv\TestArticle;
 
 class ModelTest extends TestCase {

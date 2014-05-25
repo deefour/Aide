@@ -2,7 +2,7 @@
 
 use TestDummy;
 use TestNewsArticle;
-use Deefour\Aide\TestCase;
+use TestCase;
 use Deefour\Aide\Validation\IlluminateValidator as Validator;
 use Symfony\Component\Translation\Translator;
 use Symfony\Component\Translation\MessageSelector;

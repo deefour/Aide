@@ -68,4 +68,10 @@ class PolicyClassTest extends TestCase {
     $this->assertInstanceOf('TestArticlePolicy', $policy->badMethod(new TestArticle));
   }
 
+  public function testMake() {
+    $policy = new Policy(new TestUser);
+
+    $this->assertInstanceOf('TestArticlePolicy', $policy->make(new TestArticle));
+  }
+
 }

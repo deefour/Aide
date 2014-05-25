@@ -132,10 +132,4 @@ abstract class AbstractFactory implements FactoryInterface {
     return $repositoryName;
   }
 
-  public static function __callStatic($method, array $parameters) {
-    $klass = new static;
-
-    return call_user_func_array($klass->$method, $paramters);
-  }
-
 }

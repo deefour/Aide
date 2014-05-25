@@ -135,7 +135,7 @@ In Laravel's `app/config/app.php` file, add the class:`Deefour\\Aide\\Authorizat
     // ...
 
 
-The IoC container is responsible for instantiating a single, shared instance of the class:`Deefour\\Aide\\Authorization\\Policy` class. This is done outside the scope of a controller method, meaning the IoC container has no access to or knowledge of the  `currentUser` method that may exist within a base controller. Further, the API provided by the `Policy` facade does not expect a user to be passed. This means instead of calling
+The IoC container is responsible for instantiating a single, shared instance of the :class:`Deefour\\Aide\\Authorization\\Policy` class. This is done outside the scope of a controller method, meaning the IoC container has no access to or knowledge of the  `currentUser` method that may exist within a base controller. Further, the API provided by the `Policy` facade does not expect a user to be passed. This means instead of calling
 
 .. code-block:: php
 

@@ -19,9 +19,9 @@
         "email": "jason@deefour.me"
     },
     "require-dev": {
-        "illuminate/database": "4.1.*",
-        "illuminate/validation": "4.1.*",
-        "illuminate/support": "4.1.*",
+        "illuminate/database": "4.1.29",
+        "illuminate/validation": "4.1.29",
+        "illuminate/support": "4.1.29",
         "silex/silex": "~1.2",
         "mockery/mockery": "0.9.*",
         "phpunit/phpunit": "4.0.*",

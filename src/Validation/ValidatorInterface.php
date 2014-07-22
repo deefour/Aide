@@ -12,7 +12,7 @@ interface ValidatorInterface {
    *
    * @param  \Deefour\Aide\Persistence\Entity\EntityInterface  $entity
    */
-  public function setEntity(\Deefour\Aide\Validation\ValidatableInterface $entity);
+  public function make(\Deefour\Aide\Validation\ValidatableInterface $entity);
 
   /**
    * Accessor for the previously-set entity on the validation class instance
@@ -27,7 +27,7 @@ interface ValidatorInterface {
    *
    * @return boolean
    */
-  public function isValid();
+  public function validate();
 
   /**
    * Common API accessor for the errors (if any) set on the validation library,
@@ -35,6 +35,6 @@ interface ValidatorInterface {
    *
    * @return array
    */
-  public function errors();
+  public function getErrors();
 
 }

@@ -41,18 +41,24 @@ abstract class AbstractValidator {
    */
   protected $context = [];
 
+  /**
+   * The error messages, keyed by the attribute they belong to.
+   *
+   * @protected
+   * @var array
+   */
+  protected $errors = [];
+
 
 
   /**
    * {@inheritdoc}
    */
-  public function setEntity(\Deefour\Aide\Validation\ValidatableInterface $entity) {
+  public function make(\Deefour\Aide\Validation\ValidatableInterface $entity) {
     $this->flushErrors();
     $this->flushContext();
 
-    $this->entity = $entity;
-
-    return $this;
+    return $this->setEntity($entity);
   }
 
   /**
@@ -83,7 +89,62 @@ abstract class AbstractValidator {
     return $this->context;
   }
 
+  public function setContextAttributes(array $attributes) {
+    $this->context['attributes'] = $attributes;
+  }
 
+  public function getContextAttributes() {
+    return $this->context['attributes'] ?: [];
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getErrors() {
+    if (is_null($this->errors)) {
+      $this->isValid();
+    }
+
+    $messages = [];
+
+    foreach ($this->errors as $field => $errors) {
+      foreach ($errors as $error) {
+        $message = $this->getErrorMessage($field, $error);
+        $messages[$field][] = $message;
+      }
+    }
+
+    return empty($messages) ? false : $messages;
+  }
+
+  /**
+   * Accessor for the current raw validator instance
+   *
+   * @return mixed
+   */
+  public function getValidator() {
+    return $this->validator;
+  }
+
+  /**
+   * Boolean check whether the entity is valid or not
+   */
+  public function isValid() {
+    $this->validate();
+
+    return empty($this->getErrors());
+  }
+
+
+
+  /**
+   * {@inheritdoc}
+   */
+  protected function setEntity(\Deefour\Aide\Validation\ValidatableInterface $entity) {
+    $this->entity = $entity;
+
+    return $this;
+  }
 
   /**
    * Accessor for the `$messageTemplates` variable.
@@ -155,14 +216,5 @@ abstract class AbstractValidator {
 
     return [ $rules, $callbacks ];
   }
-
-
-
-  /**
-   * Accessor for the current raw validator instance
-   *
-   * @return mixed
-   */
-  abstract public function getValidator();
 
 }

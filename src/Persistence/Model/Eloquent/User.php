@@ -25,7 +25,7 @@ class User extends Model {
     return [
       'first_name' => [ 'required', 'between:3,30' ],
       'last_name'  => [ 'required', 'between:3,30' ],
-      'email'      => [ 'required', 'email' ],
+      'email'      => [ 'required', 'email', 'unique:users' ],
     ];
   }
 

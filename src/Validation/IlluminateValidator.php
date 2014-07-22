@@ -21,68 +21,26 @@ class IlluminateValidator extends AbstractValidator implements ValidatorInterfac
   /**
    * {@inheritdoc}
    */
-  public function isValid() {
-    $data                    = $this->entity->attributesToArray();
+  public function validate() {
+    $data              = $this->entity->getAttributes();
+    $contextAttributes = $this->getContextAttributes();
+
+    $data = array_replace_recursive($data, $contextAttributes);
+
     list($rules, $callbacks) = $this->parseValidations();
     $validator               = $this->validator->make($data, $rules);
     $isValid                 = $validator->passes();
 
-    if ($isValid) {
-      foreach ($callbacks as $field => $callback) {
-        $error = call_user_func($callback, $this->getContext());
+    foreach ($callbacks as $field => $callback) {
+      $error = call_user_func($callback, $this->getContext());
 
-        if (is_string($error)) {
-          $isValid = false;
-          $validator->messages()->add($field, $error);
-        }
+      if (is_string($error)) {
+        $isValid = false;
+        $validator->messages()->add($field, $error);
       }
     }
 
-    $this->errors = $validator->messages();
-
-    return $isValid;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function errors() {
-    if (is_null($this->errors)) {
-      $this->isValid();
-    }
-
-    $fields   = $this->errors->getMessages();
-    $messages = [];
-    $prefix   = strtolower(get_class($this->entity));
-
-    foreach ($fields as $field => $errors) {
-      foreach ($errors as $error) {
-        $message = $this->getErrorMessage($field, $error);
-        $messages[$field][] = $message;
-      }
-    }
-
-    return empty($messages) ? false : $messages;
-  }
-
-  /**
-   * {@inheritdoc}
-   *
-   * @return \Illuminate\Validation\Factory
-   */
-  public function getValidator() {
-    return $this->validator;
-  }
-
-
-
-  /**
-   * {@inheritdoc}
-   */
-  protected function getErrorMessage($fieldName, $error) {
-    $error = str_replace('validation.', '', $error);
-
-    return parent::getErrorMessage($fieldName, $error);
+    $this->errors = $validator->messages()->getMessages();
   }
 
 }

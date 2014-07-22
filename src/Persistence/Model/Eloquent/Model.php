@@ -7,7 +7,7 @@ use Deefour\Aide\Validation\ValidatableInterface;
 
 
 
-abstract class Model extends Eloquent implements ModelInterface, ValidatableInterface {
+abstract class Model extends Eloquent implements EntityInterface, ModelInterface, ValidatableInterface {
 
   /**
    * Custom error message templates for this entity

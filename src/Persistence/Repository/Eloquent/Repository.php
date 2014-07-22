@@ -10,12 +10,6 @@ use \Deefour\Aide\Persistence\Model\Eloquent\Model;
 
 abstract class Repository extends AbstractRepository implements RepositoryInterface {
 
-  public function __construct(Model $model, array $options = []) {
-    parent::__construct($model, $options);
-  }
-
-
-
   /**
    * {@inheritdoc}
    */

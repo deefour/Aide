@@ -24,9 +24,16 @@ abstract class AbstractRepository implements RepositoryInterface {
 
 
 
-  public function __construct(ModelInterface $model, array $options = []) {
+  public function __construct(ModelInterface $model = null, array $options = []) {
     $this->model   = $model;
     $this->options = $options;
+
+    // derive the model class if not provided.
+    if (is_null($this->model)) {
+      $modelName = preg_replace('/Repository$/', '', get_called_class());
+
+      $this->model = new $modelName;
+    }
   }
 
   /**

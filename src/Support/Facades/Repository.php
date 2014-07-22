@@ -5,9 +5,9 @@ use Illuminate\Support\Facades\Facade;
 
 
 /**
- * @see \Deefour\Aide\Authorization\Policy
+ * @see \Deefour\Aide\Authorization\Repository
  */
-class Policy extends Facade {
+class Repository extends Facade {
 
   /**
    * Get the registered name of the component.

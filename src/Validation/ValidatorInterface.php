@@ -11,8 +11,9 @@ interface ValidatorInterface {
    * rules to follow within a public `validations` method
    *
    * @param  \Deefour\Aide\Persistence\Entity\EntityInterface  $entity
+   * @param  array                                             $context
    */
-  public function make(\Deefour\Aide\Validation\ValidatableInterface $entity);
+  public function make(\Deefour\Aide\Validation\ValidatableInterface $entity, array $context = []);
 
   /**
    * Accessor for the previously-set entity on the validation class instance

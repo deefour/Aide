@@ -54,9 +54,11 @@ abstract class AbstractValidator {
   /**
    * {@inheritdoc}
    */
-  public function make(\Deefour\Aide\Validation\ValidatableInterface $entity) {
+  public function make(\Deefour\Aide\Validation\ValidatableInterface $entity, array $context = []) {
     $this->flushErrors();
     $this->flushContext();
+
+    $this->setContext($context);
 
     return $this->setEntity($entity);
   }
@@ -94,7 +96,7 @@ abstract class AbstractValidator {
   }
 
   public function getContextAttributes() {
-    return $this->context['attributes'] ?: [];
+    return array_key_exists('attributes', $this->context) ? $this->context['attributes'] : [];
   }
 
   /**

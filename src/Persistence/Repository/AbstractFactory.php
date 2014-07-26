@@ -27,18 +27,18 @@ abstract class AbstractFactory implements FactoryInterface {
   /**
    * {@inheritdoc}
    */
-  public static function make(EntityInterface $entity, array $options = []) {
+  public static function make($entity, array $options = []) {
     return (new static)->create($entity, $options);
   }
 
   /**
    * {@inheritdoc}
    */
-  public function create(EntityInterface $entity, array $options = []) {
+  public function create($entity, array $options = []) {
     $this->setOptions($options);
 
-    $model      = $this->deriveModelName($entity);
     $repository = $this->deriveRepositoryName($entity);
+    $model      = $this->deriveModelName($entity);
 
     return new $repository(new $model, $this->options);
   }
@@ -59,11 +59,14 @@ abstract class AbstractFactory implements FactoryInterface {
    * base name, returning an array (to be used as a list of variables by the caller)
    * of these parts along with the full name.
    *
-   * @param  \Deefour\Aide\Persistence\Entity\EntityInterface  $entity
+   * @param  \Deefour\Aide\Persistence\Entity\EntityInterface|string  $entity
    * @return array
    */
-  protected function parseClassName(EntityInterface $entity) {
-    $fullClassName = get_class($entity);
+  protected function parseClassName($fullClassName) {
+    if ( ! is_string($fullClassName)) {
+      $fullClassName = get_class($fullClassName);
+    }
+
     $namespace     = join('\\', array_slice(explode('\\', $fullClassName), 0, -1));
     $className     = join('', array_slice(explode('\\', $fullClassName), -1));
 
@@ -74,27 +77,34 @@ abstract class AbstractFactory implements FactoryInterface {
    * Attempts to derive the model class based on the storage driver of the type
    * of repository being created.
    *
-   * @param  \Deefour\Aide\Persistence\Entity\EntityInterface  $entity
+   * @param  \Deefour\Aide\Persistence\Entity\EntityInterface|string  $entity
    * @return string
    */
-  protected function deriveModelName(EntityInterface $entity) {
+  protected function deriveModelName($entity) {
     $driver = $this->driver;
 
-    if ($entity instanceof Model) {
-      return get_class($entity);
+    if (is_string($entity)) {
+      $entityName = $entity;
+      $entity     = new $entityName;
     } else {
-      list($fullClassName, $namespace, $classBaseName) = $this->parseClassName($entity);
+      $entityName = get_class($entity);
+    }
+
+    if ($entity instanceof  Model) {
+      return $entityName;
+    } else {
+      list($fullClassName, $namespace, $classBaseName) = $this->parseClassName($entityName);
 
       $modelClass = "\\${driver}\\${classBaseName}";
 
-      if (trim($modelClass, '\\') !== trim(get_class($entity), '\\') and class_exists($modelClass)) {
+      if (trim($modelClass, '\\') !== trim($entityName, '\\') and class_exists($modelClass)) {
         return $modelClass;
       }
     }
 
     throw new \LogicException(sprintf(
       'A model instance could not be derived from the `%s` entity class passed to the `%s::create()` method',
-      get_class($entity),
+      $entityName,
       get_called_class()
     ));
   }
@@ -103,10 +113,10 @@ abstract class AbstractFactory implements FactoryInterface {
    * Attempts to derive the repository class for the current storage driver based
    * on the entity and model passed in.
    *
-   * @param  \Deefour\Aide\Persistence\Entity\EntityInterface  $entity
+   * @param  \Deefour\Aide\Persistence\Entity\EntityInterface|string  $entity
    * @return string
    */
-  protected function deriveRepositoryName(EntityInterface $entity) {
+  protected function deriveRepositoryName($entity) {
     list($fullClassName, $namespace, $classBaseName) = array_pad($this->parseClassName($entity), 3, null);
 
     $repositoryName = null;

@@ -1,7 +1,7 @@
 <?php namespace Deefour\Aide\Persistence\Repository\Eloquent;
 
 use Illuminate\Support\ServiceProvider;
-use Deefour\Aide\Persistence\Repository\Factory\EloquentFactory as Factory;
+use Deefour\Aide\Persistence\Repository\Eloquent\Factory;
 
 
 

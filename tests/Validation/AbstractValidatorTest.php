@@ -44,7 +44,7 @@ class AbstractValidatorTest extends TestCase {
     $this->validator->setEntity($badNewsArticle);
 
     $this->assertFalse($this->validator->isValid());
-    $this->assertArrayHasKey('slug-has-hyphen', $this->validator->errors());
+    $this->assertArrayHasKey('slug-has-hyphen', $this->validator->getErrors());
   }
 
   public function testContext() {

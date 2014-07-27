@@ -10,7 +10,7 @@ class AbstractFactoryTest extends TestCase {
 
   /**
    * @expectedException \LogicException
-   * @expectedExceptionMessage could not be derived
+   * @expectedExceptionMessage could not derive
    */
   public function testDerivedModelException() {
     $entity  = m::mock('Deefour\Aide\Persistence\Entity\EntityInterface');

@@ -26,13 +26,13 @@ class IlluminateValidatorTest extends TestCase {
     $this->validator->setEntity($invalidTestDummy);
 
     $this->assertFalse($this->validator->isValid());
-    $this->assertCount(2, $this->validator->errors()); // last name missing; bad email format
+    $this->assertCount(2, $this->validator->getErrors()); // last name missing; bad email format
 
 
     $this->validator->setEntity($validTestDummy);
 
     $this->assertTrue($this->validator->isValid());
-    $this->assertEmpty($this->validator->errors());
+    $this->assertEmpty($this->validator->getErrors());
   }
 
   public function testGetValidator() {
@@ -44,11 +44,11 @@ class IlluminateValidatorTest extends TestCase {
 
     $this->validator->setEntity($invalidTestDummy);
 
-    $this->assertNotEmpty($this->validator->errors());
+    $this->assertNotEmpty($this->validator->getErrors());
 
     $this->validator->setEntity($validTestDummy);
 
-    $this->assertFalse($this->validator->errors());
+    $this->assertEmpty($this->validator->getErrors());
   }
 
 
@@ -60,7 +60,7 @@ class IlluminateValidatorTest extends TestCase {
     return new Validator($illuminateValidator);
   }
 
-  public function getStubs() {
+  protected function getStubs() {
     $invalidTestDummy = new TestDummy(array(
       'first_name' => 'Jason',
       'email'      => 'bad_email'

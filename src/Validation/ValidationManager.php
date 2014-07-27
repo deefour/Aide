@@ -18,6 +18,9 @@ class ValidationManager extends Manager {
     return new IlluminateValidator($factory);
   }
 
+  /**
+   * {@inheritdoc}
+   */
   public function getDefaultDriver() {
     return $this->app['config']['validation.driver'];
   }

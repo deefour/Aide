@@ -51,6 +51,13 @@ abstract class AbstractValidator {
    */
   protected $errors = [];
 
+  /**
+   * Whether or not the validation against the currently bound `$entity` has been
+   * performed.
+   *
+   * @protected
+   * @var boolean
+   */
   protected $hasBeenValidated = false;
 
 
@@ -78,6 +85,21 @@ abstract class AbstractValidator {
     return $this->context;
   }
 
+  /**
+   * Pulls the key/value pairs bound to the `'attributes'` key in the `$context`.
+   * This contains form fields/attributes that are _not_ attributes on the model
+   * but which the validator relies on for validation.
+   *
+   * For example, the `IlluminateValidator` supports a `'confirmed'` rule. Given
+   * a `'password'` attribute, the validator will look for a `'password_confirmed'`
+   * attribute within the same list of data/attributes passed ot the valiator.
+   *
+   * When validation occurs, these context attributes are appended onto the entity's
+   * list of attributes before sending the data into the validation class.
+   *
+   * @link http://laravel.com/docs/validation#rule-confirmed
+   * @return array
+   */
   public function getContextAttributes() {
     return array_key_exists('attributes', $this->context) ? $this->context['attributes'] : [];
   }
@@ -147,11 +169,27 @@ abstract class AbstractValidator {
     return $this;
   }
 
+  /**
+   * Sets the context attributes to be merged with entity attributes before validation
+   * occurs
+   *
+   * @see  getContextAttributes
+   * @param  $attributes  array
+   */
   public function setContextAttributes(array $attributes) {
     $this->context['attributes'] = $attributes;
   }
 
 
+
+  /**
+   * Resets the current validation class instance. This includes
+   *
+   *  - flushing the bound `$entity`
+   *  - flushing any previously stored errors
+   *  - flushing any previously stored context
+   *  - marking the class as having never had `isValid()` called
+   */
   protected function reset(ValidatableInterface $entity = null, array $context) {
     $this->hasBeenValidated = false;
     $this->errors           = null;

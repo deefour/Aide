@@ -62,7 +62,7 @@ trait PolicyTrait {
    * could be found.
    *
    * @protected
-   * @see    self::getPolicyOrFail
+   * @see    getPolicyOrFail
    * @throws Deefour\Aide\Authorization\NotDefinedException
    * @param  mixed  $user
    * @param  mixed  $record
@@ -156,7 +156,7 @@ trait PolicyTrait {
    * could be found. This is a convenience method for the `getScopeOrFail` method.
    *
    * @protected
-   * @see    self::getScopeOrFail
+   * @see    getScopeOrFail
    * @throws Deefour\Aide\Authorization\NotDefinedException
    * @param  mixed  $scope
    * @return Deefour\Aide\Authorization\AbstractScope
@@ -172,7 +172,7 @@ trait PolicyTrait {
    * could be found. This is a convenience method for the `getPolicyOrFail` method.
    *
    * @protected
-   * @see    self::getPolicyOrFail
+   * @see    getPolicyOrFail
    * @throws Deefour\Aide\Authorization\NotDefinedException
    * @param  mixed  $record
    * @return Deefour\Aide\Authorization\AbstractPolicy

@@ -24,8 +24,8 @@ interface EntityInterface {
    * Same functionality as `setAttributes`, but first provides the option (disabled
    * by default) to flush out any previously set values on the entity.
    *
-   * @see Deefour\Aide\Persistence\Entity\EntityInterface::setAttributes
-   * @see Deefour\Aide\Persistence\Entity\EntityInterface::flush
+   * @see setAttributes
+   * @see flush
    * @param  array    $attributes
    * @param  boolean  $flush[optional]
    *

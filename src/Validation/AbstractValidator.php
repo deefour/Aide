@@ -51,18 +51,15 @@ abstract class AbstractValidator {
    */
   protected $errors = [];
 
+  protected $hasBeenValidated = false;
+
 
 
   /**
    * {@inheritdoc}
    */
-    $this->flushErrors();
-    $this->flushContext();
-
-    $this->setContext($context);
-
-    return $this->setEntity($entity);
   public function make(ValidatableInterface $entity, array $context = []) {
+    return $this->reset($entity, $context);
   }
 
   /**
@@ -70,18 +67,6 @@ abstract class AbstractValidator {
    */
   public function getEntity() {
     return $this->entity;
-  }
-
-  /**
-   * Set context for the validator to be passed onto the entity
-   *
-   * @param  array  $context
-   * @return \Deefour\Aide\Validation\ValidatorInterface
-   */
-  public function setContext(array $context) {
-    $this->context = $context;
-
-    return $this;
   }
 
   /**
@@ -93,10 +78,6 @@ abstract class AbstractValidator {
     return $this->context;
   }
 
-  public function setContextAttributes(array $attributes) {
-    $this->context['attributes'] = $attributes;
-  }
-
   public function getContextAttributes() {
     return array_key_exists('attributes', $this->context) ? $this->context['attributes'] : [];
   }
@@ -105,7 +86,7 @@ abstract class AbstractValidator {
    * {@inheritdoc}
    */
   public function getErrors() {
-    if (is_null($this->errors)) {
+    if ( ! $this->hasBeenValidated) {
       $this->isValid();
     }
 
@@ -118,7 +99,7 @@ abstract class AbstractValidator {
       }
     }
 
-    return empty($messages) ? false : $messages;
+    return $messages;
   }
 
   /**
@@ -134,18 +115,48 @@ abstract class AbstractValidator {
    * Boolean check whether the entity is valid or not
    */
   public function isValid() {
+    if (is_null($this->getEntity())) {
+      throw new Exception('There is nothing to validate. No entity is currently bound to the validator.');
+    }
+
     $this->validate();
+
+    $this->hasBeenValidated = true;
 
     return empty($this->getErrors());
   }
 
-  public function setEntity(ValidatableInterface $entity) {
-
-
   /**
    * {@inheritdoc}
    */
-    $this->entity = $entity;
+  public function setEntity(ValidatableInterface $entity) {
+    $this->reset($entity, $this->getContext());
+
+    return $this;
+  }
+
+  /**
+   * Set context for the validator to be passed onto the entity
+   *
+   * @param  array  $context
+   * @return \Deefour\Aide\Validation\ValidatorInterface
+   */
+  public function setContext(array $context) {
+    $this->reset($this->getEntity(), $context);
+
+    return $this;
+  }
+
+  public function setContextAttributes(array $attributes) {
+    $this->context['attributes'] = $attributes;
+  }
+
+
+  protected function reset(ValidatableInterface $entity = null, array $context) {
+    $this->hasBeenValidated = false;
+    $this->errors           = null;
+    $this->entity           = $entity;
+    $this->context          = $context;
 
     return $this;
   }
@@ -173,24 +184,6 @@ abstract class AbstractValidator {
     $messageTemplate = array_key_exists($error, $templates) ? $templates[$error] : $this->defaultMessageTemplate;
 
     return sprintf($messageTemplate, $prettyFieldName);
-  }
-
-  /**
-   * Clears any previously set errors from an earlier validation
-   *
-   * @protected
-   */
-  protected function flushErrors() {
-    $this->errors = null;
-  }
-
-  /**
-   * Clears the current context
-   *
-   * @protected
-   */
-  protected function flushContext() {
-    $this->context = [];
   }
 
   /**

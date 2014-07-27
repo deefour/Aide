@@ -142,10 +142,11 @@ abstract class AbstractValidator {
     }
 
     $this->validate();
-
     $this->hasBeenValidated = true;
 
-    return empty($this->getErrors());
+    $errors = $this->getErrors();
+
+    return empty($errors);
   }
 
   /**

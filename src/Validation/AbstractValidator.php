@@ -192,7 +192,7 @@ abstract class AbstractValidator {
    */
   protected function reset(ValidatableInterface $entity = null, array $context) {
     $this->hasBeenValidated = false;
-    $this->errors           = null;
+    $this->errors           = [];
     $this->entity           = $entity;
     $this->context          = $context;
 

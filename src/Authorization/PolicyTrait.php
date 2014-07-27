@@ -21,6 +21,7 @@ trait PolicyTrait {
   protected $_policyAuthorized = false;
 
 
+
   /**
    * Derive the name for and instantiate an instance of a scope class for the passed
    * `$scope` object. The `$user` will be used to conditionally modify the scope.
@@ -72,6 +73,8 @@ trait PolicyTrait {
 
     return new $policy($user, $record);
   }
+
+
 
   /**
    * Throws an exception if authorization has not been performed when called. This

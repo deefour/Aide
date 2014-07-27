@@ -1,11 +1,5 @@
 <?php namespace Deefour\Aide\Silex\Provider;
 
-/**
- * Provider for illuminate/database Laravel component
- *
- * @link https://gist.github.com/ziadoz/7326872
- */
-
 use Silex\Application;
 use Silex\ServiceProviderInterface;
 use Illuminate\Database\Capsule\Manager as Capsule;
@@ -13,6 +7,11 @@ use Illuminate\Events\Dispatcher;
 use Illuminate\Container\Container;
 use Illuminate\Cache\CacheManager;
 
+/**
+ * Provider for illuminate/database Laravel component
+ *
+ * @link https://gist.github.com/ziadoz/7326872
+ */
 class CapsuleServiceProvider implements ServiceProviderInterface {
 
   /**

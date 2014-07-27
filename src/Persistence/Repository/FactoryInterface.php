@@ -2,8 +2,6 @@
 
 use \Deefour\Aide\Persistence\Entity\EntityInterface;
 
-
-
 interface FactoryInterface {
 
   /**

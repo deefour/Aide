@@ -2,8 +2,6 @@
 
 use Deefour\Aide\Validation\ValidatableInterface;
 
-
-
 abstract class AbstractEntity implements EntityInterface, ValidatableInterface {
 
   /**

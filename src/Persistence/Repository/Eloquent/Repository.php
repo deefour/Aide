@@ -6,8 +6,6 @@ use Deefour\Aide\Persistence\Model\ModelInterface;
 use Deefour\Aide\Persistence\Entity\EntityInterface;
 use \Deefour\Aide\Persistence\Model\Eloquent\Model;
 
-
-
 abstract class Repository extends AbstractRepository implements RepositoryInterface {
 
   /**

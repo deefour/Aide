@@ -3,8 +3,6 @@
 use Deefour\Aide\Persistence\Model\ModelInterface;
 use Deefour\Aide\Persistence\Entity\EntityInterface;
 
-
-
 abstract class AbstractRepository implements RepositoryInterface {
 
   /**

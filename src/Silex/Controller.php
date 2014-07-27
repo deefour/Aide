@@ -14,8 +14,6 @@ use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 
-
-
 abstract class Controller {
 
   /**

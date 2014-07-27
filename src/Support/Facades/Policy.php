@@ -2,8 +2,6 @@
 
 use Illuminate\Support\Facades\Facade;
 
-
-
 /**
  * @see \Deefour\Aide\Authorization\Policy
  */

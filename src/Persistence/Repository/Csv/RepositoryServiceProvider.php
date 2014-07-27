@@ -3,8 +3,6 @@
 use Illuminate\Support\ServiceProvider;
 use Deefour\Aide\Persistence\Repository\Factory\Csv\Factory;
 
-
-
 class RepositoryServiceProvider extends ServiceProvider {
 
   /**

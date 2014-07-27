@@ -3,8 +3,6 @@
 use Deefour\Aide\Persistence\Repository\AbstractFactory;
 use Deefour\Aide\Persistence\Entity\EntityInterface;
 
-
-
 class Factory extends AbstractFactory {
 
   /**

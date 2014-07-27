@@ -13,6 +13,7 @@ use Illuminate\Database\Capsule\Manager as Capsule;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
+use Deefour\Aide\Validation\ValidatorInterface;
 
 abstract class Controller {
 
@@ -221,7 +222,7 @@ abstract class Controller {
    * @param  \Deefour\Aide\Validation\ValidatorInterface  $validator
    * @return \Deefour\Aide\Silex\Controller
    */
-  public function setValidator(\Deefour\Aide\Validation\ValidatorInterface $validator) {
+  public function setValidator(ValidatorInterface $validator) {
     $this->validator = $validator;
 
     return $this;

@@ -1,5 +1,7 @@
 <?php namespace Deefour\Aide\Validation;
 
+use \Deefour\Aide\Validation\ValidatableInterface;
+
 abstract class AbstractValidator {
 
   /**
@@ -54,13 +56,13 @@ abstract class AbstractValidator {
   /**
    * {@inheritdoc}
    */
-  public function make(\Deefour\Aide\Validation\ValidatableInterface $entity, array $context = []) {
     $this->flushErrors();
     $this->flushContext();
 
     $this->setContext($context);
 
     return $this->setEntity($entity);
+  public function make(ValidatableInterface $entity, array $context = []) {
   }
 
   /**
@@ -137,12 +139,12 @@ abstract class AbstractValidator {
     return empty($this->getErrors());
   }
 
+  public function setEntity(ValidatableInterface $entity) {
 
 
   /**
    * {@inheritdoc}
    */
-  protected function setEntity(\Deefour\Aide\Validation\ValidatableInterface $entity) {
     $this->entity = $entity;
 
     return $this;

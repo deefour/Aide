@@ -10,7 +10,7 @@ class ModelTest extends TestCase {
     $dummy = new TestDummy;
 
     $this->assertInstanceOf('\Illuminate\Database\Eloquent\Model', $dummy);
-    $this->assertCount(3, $dummy->getDates());
+    $this->assertCount(2, $dummy->getDates());
   }
 
   public function testFromArray() {

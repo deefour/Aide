@@ -84,3 +84,4 @@ abstract class Repository extends AbstractRepository implements RepositoryInterf
   }
 
 }
+

@@ -1,3 +1,3 @@
 <?php
 
-class TestUser {}
+class TestUser { }

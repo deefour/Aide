@@ -3,8 +3,6 @@
 use Deefour\Aide\Persistence\Model\Eloquent\Model;
 use Mockery as m;
 
-
-
 class TestDummy extends Model {
 
   public function save(array $options = array()) {

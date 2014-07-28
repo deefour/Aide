@@ -2,8 +2,6 @@
 
 use Deefour\Aide\Authorization\AbstractPolicy;
 
-
-
 class TestArticlePolicy extends AbstractPolicy {
 
   public function edit() {

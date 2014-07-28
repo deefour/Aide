@@ -6,9 +6,9 @@ class AuthorizationController {
 
 
 
-  public function __construct() {
+  public function __construct() { }
 
-  }
+
 
   public function edit() {
     $this->authorize(new TestArticle);

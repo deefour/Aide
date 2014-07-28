@@ -2,6 +2,4 @@
 
 use Deefour\Aide\Persistence\Repository\Csv\Repository;
 
-class TestDummyRepository extends Repository {
-
-}
+class TestDummyRepository extends Repository { }

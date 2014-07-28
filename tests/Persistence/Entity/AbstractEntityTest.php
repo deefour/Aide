@@ -79,6 +79,14 @@ class AbstractEntityTest extends TestCase {
     $this->assertEquals($this->data['first_name'], $user->toArray()['first_name']);
   }
 
+  public function testAttributesToArray() {
+    $user = new TestDummy;
+
+    $user->fromArray($this->data);
+
+    $this->assertArrayHasKey('first_name', $user->attributesToArray());
+  }
+
   /**
    * @expectedException BadMethodCallException
    */

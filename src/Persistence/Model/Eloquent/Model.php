@@ -4,18 +4,13 @@ use Illuminate\Database\Eloquent\Model as Eloquent;
 use Deefour\Aide\Persistence\Model\ModelInterface;
 use Deefour\Aide\Persistence\Entity\EntityInterface;
 use Deefour\Aide\Validation\ValidatableInterface;
-
-
+use Deefour\Aide\Validation\ValidatableTrait;
 
 abstract class Model extends Eloquent implements ModelInterface, ValidatableInterface {
 
-  /**
-   * Custom error message templates for this entity
-   *
-   * @protected
-   * @var array
-   */
-  protected $messageTemplates = [];
+  use ValidatableTrait;
+
+
 
   /**
    * Keep the mass assignment protection out of the model layer. Instead, expect
@@ -118,25 +113,6 @@ abstract class Model extends Eloquent implements ModelInterface, ValidatableInte
     $model->exists = $exists;
 
     return $model;
-  }
-
-  /**
-   * {@inheritdoc}
-   *
-   * @throws BadMethodCallException if no `validations` method has been provided
-   * on the inheriting class
-   */
-  public function validations(array $context = []) {
-    throw new \BadMethodCallException('A `validations` method has not been defined for this class');
-  }
-
-  /**
-   * A list of error message templates specific to this entity.
-   *
-   * @return array
-   */
-  public function getMessageTemplates() {
-    return $this->messageTemplates;
   }
 
 }

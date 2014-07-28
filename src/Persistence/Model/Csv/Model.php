@@ -1,8 +1,14 @@
 <?php namespace Deefour\Aide\Persistence\Model\Csv;
 
 use Deefour\Aide\Persistence\Model\ModelInterface;
+use Deefour\Aide\Validation\ValidatableInterface;
+use Deefour\Aide\Validation\ValidatableTrait;
 
-abstract class Model implements \ArrayAccess, ModelInterface {
+abstract class Model implements \ArrayAccess, ModelInterface, ValidatableInterface {
+
+  use ValidatableTrait;
+
+
 
   /**
    * List of columns that should be considered attributes for the data store

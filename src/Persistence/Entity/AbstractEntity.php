@@ -1,8 +1,13 @@
 <?php namespace Deefour\Aide\Persistence\Entity;
 
 use Deefour\Aide\Validation\ValidatableInterface;
+use Deefour\Aide\Validation\ValidatableTrait;
 
 abstract class AbstractEntity implements EntityInterface, ValidatableInterface {
+
+  use ValidatableTrait;
+
+
 
   /**
    * By default all entities have the id attribute available as the unique
@@ -19,14 +24,6 @@ abstract class AbstractEntity implements EntityInterface, ValidatableInterface {
    * @var boolean
    */
   public $exists = false;
-
-  /**
-   * Custom error message templates for this entity
-   *
-   * @protected
-   * @var array
-   */
-  protected $messageTemplates = [];
 
   /**
    * Whitelist of protected properties that magic __get and __set should allow
@@ -108,25 +105,6 @@ abstract class AbstractEntity implements EntityInterface, ValidatableInterface {
     foreach ($attributes as $attribute) {
       $this->$attribute = null;
     }
-  }
-
-  /**
-   * {@inheritdoc}
-   *
-   * @throws BadMethodCallException if no `validations` method has been provided
-   * on the inheriting class
-   */
-  public function validations(array $context = []) {
-    throw new \BadMethodCallException('A `validations` method has not been defined for this classs');
-  }
-
-  /**
-   * A list of error message templates specific to this entity.
-   *
-   * @return array
-   */
-  public function getMessageTemplates() {
-    return $this->messageTemplates;
   }
 
 

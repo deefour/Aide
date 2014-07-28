@@ -1,5 +1,7 @@
 <?php namespace Deefour\Aide\Silex\Application;
 
+use Deefour\Aide\Persistence\Entity\EntityInterface;
+
 /**
  * Trait for the main Application, providing a shortcut create an validation class
  * instance based on a provided entity
@@ -12,7 +14,7 @@ trait ValidatorTrait {
    * @param  \Deefour\Aide\Persistence\Entity\EntityInterface  $entity
    * @return \Deefour\Aide\Validation\ValidationInterface
    */
-  public function validator(\Deefour\Aide\Persistence\Entity\EntityInterface $entity) {
+  public function validator(EntityInterface $entity) {
     $this['validator']->setEntity($entity);
 
     return $this['validator'];

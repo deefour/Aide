@@ -1,5 +1,7 @@
 <?php namespace Deefour\Aide\Validation;
 
+use Deefour\Aide\Validation\ValidatableInterface;
+
 /**
  * Contract for validation library abstractions to follow for validation and
  * error retrieval/display.
@@ -13,7 +15,7 @@ interface ValidatorInterface {
    * @param  \Deefour\Aide\Persistence\Entity\EntityInterface  $entity
    * @param  array                                             $context
    */
-  public function make(\Deefour\Aide\Validation\ValidatableInterface $entity, array $context = []);
+  public function make(ValidatableInterface $entity, array $context = []);
 
   /**
    * Accessor for the previously-set entity on the validation class instance

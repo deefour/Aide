@@ -1,19 +1,22 @@
 <?php namespace Deefour\Aide\Silex;
 
+use Deefour\Aide\Persistence\Repository\RepositoryInterface;
+use Deefour\Aide\Validation\ValidatorInterface;
+use Illuminate\Database\Capsule\Manager as Capsule;
 use Psr\Log\LoggerInterface;
+use Swift_Mailer;
+use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\RedirectResponse;
-use Symfony\Component\Routing\Generator\UrlGenerator;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-use Deefour\Aide\Persistence\Repository\RepositoryInterface;
-use Symfony\Component\HttpKernel\Exception\HttpException;
-use Illuminate\Database\Capsule\Manager as Capsule;
-use Symfony\Component\HttpFoundation\BinaryFileResponse;
-use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
-use Deefour\Aide\Validation\ValidatorInterface;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Component\Routing\Generator\UrlGenerator;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Twig_Environment;
+
 
 abstract class Controller {
 
@@ -116,7 +119,7 @@ abstract class Controller {
    * @param  \Twig_Environment  $twig
    * @return \Deefour\Aide\Silex\Controller
    */
-  public function setTwig(\Twig_Environment $twig) {
+  public function setTwig(Twig_Environment $twig) {
     $this->twig = $twig;
 
     return $this;
@@ -140,7 +143,7 @@ abstract class Controller {
    * @param  \Swift_Mailer  $mailer
    * @return \Deefour\Aide\Silex\Controller
    */
-  public function setMailer(\Swift_Mailer $mailer) {
+  public function setMailer(Swift_Mailer $mailer) {
     $this->mailer = $mailer;
 
     return $this;

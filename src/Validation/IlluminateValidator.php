@@ -1,5 +1,7 @@
 <?php namespace Deefour\Aide\Validation;
 
+use Illuminate\Validation\Factory;
+
 /**
  * Validation abstraction for the Illuminate/Validation library
  */
@@ -14,7 +16,7 @@ class IlluminateValidator extends AbstractValidator implements ValidatorInterfac
 
 
 
-  public function __construct(\Illuminate\Validation\Factory $validator) {
+  public function __construct(Factory $validator) {
     $this->validator = $validator;
   }
 

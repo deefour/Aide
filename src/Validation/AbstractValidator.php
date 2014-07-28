@@ -138,7 +138,7 @@ abstract class AbstractValidator {
    */
   public function isValid() {
     if (is_null($this->getEntity())) {
-      throw new Exception('There is nothing to validate. No entity is currently bound to the validator.');
+      throw new \Exception('There is nothing to validate. No entity is currently bound to the validator.');
     }
 
     $this->validate();

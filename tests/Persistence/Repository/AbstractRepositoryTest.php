@@ -3,7 +3,7 @@
 use TestCase;
 use TestArticle;
 use Mockery as m;
-
+use Eloquent\TestDummyRepository;
 
 
 class AbstractRepositoryTest extends TestCase {
@@ -37,6 +37,12 @@ class AbstractRepositoryTest extends TestCase {
 
   public function testNewInstance() {
     $this->assertInstanceOf('\\Csv\\TestArticle', $this->repository->newInstance());
+  }
+
+  public function testModelDerivationFromCaller() {
+    $repository = new TestDummyRepository;
+
+    $this->assertInstanceOf('\\Eloquent\\TestDummy', $repository->newInstance());
   }
 
 }

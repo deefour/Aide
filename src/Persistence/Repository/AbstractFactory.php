@@ -88,7 +88,7 @@ abstract class AbstractFactory implements FactoryInterface {
       $entityName = get_class($entity);
     }
 
-    if ($entity instanceof  Model) {
+    if ($entity instanceof Model) {
       return $entityName;
     } else {
       list($fullClassName, $namespace, $classBaseName) = $this->parseClassName($entityName);

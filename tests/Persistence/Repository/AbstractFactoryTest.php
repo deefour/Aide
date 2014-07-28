@@ -8,15 +8,18 @@ use TestDummy;
 
 class AbstractFactoryTest extends TestCase {
 
+  public function testEntityDerivationFromString() {
+    $factory = m::mock('Deefour\Aide\Persistence\Repository\AbstractFactory', [ 'EntityModel' ]);
+  }
+
   /**
    * @expectedException \LogicException
    * @expectedExceptionMessage could not derive
    */
   public function testDerivedModelException() {
-    $entity  = m::mock('Deefour\Aide\Persistence\Entity\EntityInterface');
     $factory = m::mock('Deefour\Aide\Persistence\Repository\AbstractFactory')->makePartial();
 
-    $factory->create($entity);
+    $factory->create('NonExistentEntity');
   }
 
 }

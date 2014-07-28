@@ -20,6 +20,8 @@ class RepositoryTest extends TestCase {
     $this->repository = new TestDummyRepository($this->testDummy);
   }
 
+
+
   public function testCreate() {
     $entity = new \TestDummy;
 

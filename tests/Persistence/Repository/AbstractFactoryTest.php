@@ -42,8 +42,6 @@ class AbstractFactoryTest extends TestCase {
     $this->factory->create('OrphanTestDummy');
   }
 
-
-
   /**
    * @expectedException \LogicException
    * @expectedExceptionMessage could not derive the repository class name

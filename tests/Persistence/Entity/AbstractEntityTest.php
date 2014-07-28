@@ -16,6 +16,7 @@ class AbstractEntityTest extends TestCase {
   }
 
 
+
   public function testConstruction() {
     $user = new TestDummy($this->data);
 

@@ -55,7 +55,6 @@ class PolicyClassTest extends TestCase {
     $policy = new Policy(new TestUser);
 
     $this->assertTrue($policy->authorize(new TestArticle, 'edit'));
-
     $this->assertTrue($policy->authorize(new TestArticle));
   }
 

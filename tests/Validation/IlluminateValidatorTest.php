@@ -28,7 +28,6 @@ class IlluminateValidatorTest extends TestCase {
     $this->assertFalse($this->validator->isValid());
     $this->assertCount(2, $this->validator->getErrors()); // last name missing; bad email format
 
-
     $this->validator->setEntity($validTestDummy);
 
     $this->assertTrue($this->validator->isValid());

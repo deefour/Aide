@@ -35,8 +35,8 @@ abstract class AbstractFactory implements FactoryInterface {
   public function create($entity, array $options = []) {
     $this->setOptions($options);
 
-    $repository = $this->deriveRepositoryName($entity);
     $model      = $this->deriveModelName($entity);
+    $repository = $this->deriveRepositoryName($entity);
 
     return new $repository(new $model, $this->options);
   }
@@ -82,10 +82,24 @@ abstract class AbstractFactory implements FactoryInterface {
     $driver = $this->driver;
 
     if (is_string($entity)) {
+      if ( ! class_exists($entity)) {
+        throw new \LogicException(sprintf(
+          'The string `$entity` provided `%s` does not match an existing entity class',
+          $entity
+        ));
+      }
+
       $entityName = $entity;
       $entity     = new $entityName;
     } else {
       $entityName = get_class($entity);
+    }
+
+    if ( ! ($entity instanceof EntityInterface)) {
+     throw new \LogicException(sprintf(
+        'The string `$entity` provided `%s` does not implement the `\Deefour\Aide\Persistence\Entity\EntityInterface` interface',
+        $entityName
+      ));
     }
 
     if ($entity instanceof Model) {
@@ -101,7 +115,7 @@ abstract class AbstractFactory implements FactoryInterface {
     }
 
     throw new \LogicException(sprintf(
-      'A model instance could not be derived from the `%s` entity class passed to the `%s::create()` method',
+      "`${driver}Factory::create` could not derive the model class name for the  from the `%s` entity",
       $entityName,
       get_called_class()
     ));

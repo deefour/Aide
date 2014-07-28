@@ -1,7 +1,7 @@
 {
     "name": "deefour/aide",
     "description": "A set of classes to assist Laravel and Silex development.",
-    "version": "0.5.0",
+    "version": "0.6.0",
     "license": "MIT",
     "keywords": ["deefour", "eloquent", "silex", "validation", "persistence", "laravel"],
     "authors": [

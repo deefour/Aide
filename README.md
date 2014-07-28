@@ -24,6 +24,12 @@ Documentation can be found on [**Read the Docs**](http://aide.readthedocs.org/en
 
 ## Changelog
 
+#### 0.6.0 - July 27, 2014
+
+ - Laravel dependency bumped to 4.2
+ - Initial whitespace cleaning throughout `src/` and `tests/`
+ - Validation improvements including moving common code between entities and models into a trait
+
 #### 0.5.0 - May 24, 2014
 
  - Laravel service providers for `Repository` and `Policy` factories

@@ -8,18 +8,22 @@ use TestDummy;
 
 class AbstractFactoryTest extends TestCase {
 
-  public function testEntityDerivationFromString() {
-    $factory = m::mock('Deefour\Aide\Persistence\Repository\AbstractFactory', [ 'EntityModel' ]);
+  protected $factory;
+
+
+
+  public function setUp() {
+    $this->factory = m::mock('Deefour\Aide\Persistence\Repository\AbstractFactory')->makePartial();
   }
+
+
 
   /**
    * @expectedException \LogicException
    * @expectedExceptionMessage does not match an existing entity class
    */
   public function testDeriveModelFromInvalidEntityString() {
-    $factory = m::mock('Deefour\Aide\Persistence\Repository\AbstractFactory')->makePartial();
-
-    $factory->create('NonExistentEntity');
+    $this->factory->create('NonExistentEntity');
   }
 
   /**
@@ -27,9 +31,7 @@ class AbstractFactoryTest extends TestCase {
    * @expectedExceptionMessage does not implement the
    */
   public function testDerivedModelFromNonEntityString() {
-    $factory = m::mock('Deefour\Aide\Persistence\Repository\AbstractFactory')->makePartial();
-
-    $factory->create('\\Eloquent\\TestDummy');
+    $this->factory->create('\\Eloquent\\TestDummy');
   }
 
   /**
@@ -37,9 +39,7 @@ class AbstractFactoryTest extends TestCase {
    * @expectedExceptionMessage could not derive the model class name
    */
   public function testDerivedModelFromEntityWithoutMatchingModel() {
-    $factory = m::mock('Deefour\Aide\Persistence\Repository\AbstractFactory')->makePartial();
-
-    $factory->create('OrphanTestDummy');
+    $this->factory->create('OrphanTestDummy');
   }
 
 
@@ -49,9 +49,11 @@ class AbstractFactoryTest extends TestCase {
    * @expectedExceptionMessage could not derive the repository class name
    */
   public function testDerivedRepositoryFromEntityWithoutMatchingRepository() {
-    $factory = m::mock('Deefour\Aide\Persistence\Repository\AbstractFactory')->makePartial();
+    $this->factory->create('RepositorylessEntityModel');
+  }
 
-    $factory->create('RepositorylessEntityModel');
+  public function testEntityDerivationFromString() {
+    $factory = m::mock('Deefour\Aide\Persistence\Repository\AbstractFactory', [ 'EntityModel' ]);
   }
 
 

@@ -1,3 +1,13 @@
+> ### Please Note
+>
+> **This project is no longer maintained.** Much of the functionality has been simplified, improved upon, and broken out into separate libraries.
+>
+> - https://github.com/deefour/authorizer
+> - https://github.com/deefour/presenter
+> - https://github.com/deefour/interactor
+> - https://github.com/deefour/transformer
+>
+
 # Aide
 
 
